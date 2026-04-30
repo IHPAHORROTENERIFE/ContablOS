@@ -66,3 +66,136 @@
 
 <header>
   <h1>ContablOS</h1>
+  <p>Sistema contable móvil</p>
+</header>
+
+<div class="container">
+
+  <div class="grid">
+    <div class="card">
+      <div class="small">Ingresos</div>
+      <div class="total" id="ingresos">0 €</div>
+    </div>
+    <div class="card">
+      <div class="small">Gastos</div>
+      <div class="total" id="gastos">0 €</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="small">Beneficio estimado</div>
+    <div class="total" id="beneficio">0 €</div>
+  </div>
+
+  <div class="card">
+    <h2>Nueva factura</h2>
+
+    <input id="concepto" placeholder="Concepto">
+    <input id="importe" type="number" placeholder="Base imponible">
+
+    <select id="tipo">
+      <option value="ingreso">Ingreso / Venta</option>
+      <option value="gasto">Gasto / Compra</option>
+    </select>
+
+    <select id="impuesto">
+      <option value="0">Sin impuesto</option>
+      <option value="3">IGIC 3%</option>
+      <option value="7">IGIC 7%</option>
+      <option value="21">IVA 21%</option>
+    </select>
+
+    <button onclick="guardarFactura()">Guardar factura</button>
+  </div>
+
+  <div class="card">
+    <h2>Facturas</h2>
+    <div id="lista"></div>
+  </div>
+
+  <button class="danger" onclick="borrarTodo()">Borrar datos</button>
+
+</div>
+
+<script>
+  let facturas = JSON.parse(localStorage.getItem("facturas")) || [];
+
+  function guardarFactura() {
+    const concepto = document.getElementById("concepto").value;
+    const importe = parseFloat(document.getElementById("importe").value);
+    const tipo = document.getElementById("tipo").value;
+    const impuesto = parseFloat(document.getElementById("impuesto").value);
+
+    if (!concepto || isNaN(importe)) {
+      alert("Introduce concepto e importe");
+      return;
+    }
+
+    const cuota = importe * impuesto / 100;
+    const total = importe + cuota;
+
+    facturas.push({
+      concepto,
+      importe,
+      impuesto,
+      cuota,
+      total,
+      tipo,
+      fecha: new Date().toLocaleDateString()
+    });
+
+    localStorage.setItem("facturas", JSON.stringify(facturas));
+
+    document.getElementById("concepto").value = "";
+    document.getElementById("importe").value = "";
+
+    pintar();
+  }
+
+  function pintar() {
+    let ingresos = 0;
+    let gastos = 0;
+    let html = "";
+
+    facturas.forEach((f, i) => {
+      if (f.tipo === "ingreso") ingresos += f.total;
+      else gastos += f.total;
+
+      html += `
+        <div class="item">
+          <strong>${f.concepto}</strong><br>
+          ${f.fecha}<br>
+          Tipo: ${f.tipo}<br>
+          Base: ${f.importe.toFixed(2)} €<br>
+          Impuesto: ${f.impuesto}% = ${f.cuota.toFixed(2)} €<br>
+          Total: <strong>${f.total.toFixed(2)} €</strong><br>
+          <button class="danger" onclick="borrarFactura(${i})">Eliminar</button>
+        </div>
+      `;
+    });
+
+    document.getElementById("ingresos").innerText = ingresos.toFixed(2) + " €";
+    document.getElementById("gastos").innerText = gastos.toFixed(2) + " €";
+    document.getElementById("beneficio").innerText = (ingresos - gastos).toFixed(2) + " €";
+    document.getElementById("lista").innerHTML = html || "<p>No hay facturas todavía.</p>";
+  }
+
+  function borrarFactura(i) {
+    facturas.splice(i, 1);
+    localStorage.setItem("facturas", JSON.stringify(facturas));
+    pintar();
+  }
+
+  function borrarTodo() {
+    if (confirm("¿Seguro que quieres borrar todos los datos?")) {
+      facturas = [];
+      localStorage.removeItem("facturas");
+      pintar();
+    }
+  }
+
+  pintar();
+</script>
+
+</body>
+</html>
