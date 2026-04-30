@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ContablOS v1.1</title>
+<title>ContablOS v1.2 OCR</title>
 <style>
 body{margin:0;font-family:Arial;background:#0f172a;color:white}
 header{background:#020617;padding:18px;text-align:center;position:sticky;top:0;z-index:10}
@@ -27,8 +27,8 @@ h2{margin-top:0}
 <body>
 
 <header>
-<h1>ContablOS v1.1</h1>
-<div class="small">Sistema contable móvil</div>
+<h1>ContablOS v1.2 OCR</h1>
+<div class="small">Sistema contable móvil con cámara y OCR</div>
 </header>
 
 <nav>
@@ -37,6 +37,7 @@ h2{margin-top:0}
 <button onclick="ver('facturas')">Facturas</button>
 <button onclick="ver('asientos')">Asientos</button>
 <button onclick="ver('impuestos')">Impuestos</button>
+<button onclick="ver('ocr')">OCR</button>
 <button onclick="ver('datos')">Datos</button>
 </nav>
 
@@ -117,6 +118,32 @@ h2{margin-top:0}
 </div>
 </section>
 
+<section id="ocr">
+<div class="card">
+<h2>Captura OCR</h2>
+
+<input 
+type="file" 
+id="ocr_file" 
+accept="image/*" 
+capture="environment"
+onchange="procesarOCR()"
+>
+
+<button class="blue" onclick="document.getElementById('ocr_file').click()">
+Abrir cámara / subir factura
+</button>
+
+<div id="ocr_estado" class="small">Esperando imagen...</div>
+
+<textarea id="ocr_texto" rows="12" placeholder="Texto reconocido"></textarea>
+
+<button onclick="crearFacturaDesdeOCR()">
+Crear factura desde OCR
+</button>
+</div>
+</section>
+
 <section id="datos">
 <div class="card">
 <h2>Exportar / importar</h2>
@@ -127,63 +154,146 @@ h2{margin-top:0}
 </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
 <script>
 let db=JSON.parse(localStorage.getItem("contablos_db"))||{
 contactos:[],facturas:[],asientos:[]
 };
 
-function save(){localStorage.setItem("contablos_db",JSON.stringify(db));pintar();}
-function eur(n){return (Number(n)||0).toFixed(2)+" €";}
-function ver(id){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
+function save(){
+localStorage.setItem("contablos_db",JSON.stringify(db));
+pintar();
+}
+
+function eur(n){
+return (Number(n)||0).toFixed(2)+" €";
+}
+
+function ver(id){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
 
 function guardarContacto(){
-let c={nombre:c_nombre.value,nif:c_nif.value,email:c_email.value,tel:c_tel.value,tipo:c_tipo.value};
-if(!c.nombre){alert("Falta nombre");return;}
-db.contactos.push(c);c_nombre.value=c_nif.value=c_email.value=c_tel.value="";save();
+let c={
+nombre:c_nombre.value,
+nif:c_nif.value,
+email:c_email.value,
+tel:c_tel.value,
+tipo:c_tipo.value
+};
+
+if(!c.nombre){
+alert("Falta nombre");
+return;
+}
+
+db.contactos.push(c);
+c_nombre.value="";
+c_nif.value="";
+c_email.value="";
+c_tel.value="";
+save();
 }
 
 function guardarFactura(){
 let base=parseFloat(f_base.value);
-if(!f_numero.value||!f_concepto.value||isNaN(base)){alert("Faltan datos");return;}
+
+if(!f_numero.value || !f_concepto.value || isNaN(base)){
+alert("Faltan datos");
+return;
+}
+
 let imp=parseFloat(f_imp.value);
 let cuota=base*imp/100;
+
 db.facturas.push({
 numero:f_numero.value,
 contacto:f_contacto.value,
 concepto:f_concepto.value,
-base,imp,cuota,total:base+cuota,
+base:base,
+imp:imp,
+cuota:cuota,
+total:base+cuota,
 tipo:f_tipo.value,
 fecha:new Date().toLocaleDateString()
 });
-f_numero.value=f_contacto.value=f_concepto.value=f_base.value="";
+
+f_numero.value="";
+f_contacto.value="";
+f_concepto.value="";
+f_base.value="";
 save();
 }
 
 function guardarAsiento(){
 let debe=parseFloat(a_debe.value)||0;
 let haber=parseFloat(a_haber.value)||0;
-if(!a_desc.value){alert("Falta descripción");return;}
-db.asientos.push({desc:a_desc.value,debe,haber,cuenta:a_cuenta.value,fecha:new Date().toLocaleDateString()});
-a_desc.value=a_debe.value=a_haber.value=a_cuenta.value="";
+
+if(!a_desc.value){
+alert("Falta descripción");
+return;
+}
+
+db.asientos.push({
+desc:a_desc.value,
+debe:debe,
+haber:haber,
+cuenta:a_cuenta.value,
+fecha:new Date().toLocaleDateString()
+});
+
+a_desc.value="";
+a_debe.value="";
+a_haber.value="";
+a_cuenta.value="";
 save();
 }
 
-function borrarContacto(i){db.contactos.splice(i,1);save();}
-function borrarFactura(i){db.facturas.splice(i,1);save();}
-function borrarAsiento(i){db.asientos.splice(i,1);save();}
+function borrarContacto(i){
+db.contactos.splice(i,1);
+save();
+}
+
+function borrarFactura(i){
+db.facturas.splice(i,1);
+save();
+}
+
+function borrarAsiento(i){
+db.asientos.splice(i,1);
+save();
+}
 
 function pintar(){
-let ingresos=0,gastos=0,rep=0,sop=0;
+let ingresos=0;
+let gastos=0;
+let rep=0;
+let sop=0;
 
 lista_contactos.innerHTML=db.contactos.map((c,i)=>`
 <div class="item">
-<b>${c.nombre}</b><br>${c.tipo}<br>${c.nif||""}<br>${c.email||""}<br>${c.tel||""}
+<b>${c.nombre}</b><br>
+${c.tipo}<br>
+${c.nif||""}<br>
+${c.email||""}<br>
+${c.tel||""}
 <button class="red" onclick="borrarContacto(${i})">Eliminar</button>
-</div>`).join("")||"Sin contactos";
+</div>
+`).join("")||"Sin contactos";
 
 lista_facturas.innerHTML=db.facturas.map((f,i)=>{
-if(f.tipo=="venta"){ingresos+=f.total;rep+=f.cuota}else{gastos+=f.total;sop+=f.cuota}
-return `<div class="item">
+if(f.tipo=="venta"){
+ingresos+=f.total;
+rep+=f.cuota;
+}else{
+gastos+=f.total;
+sop+=f.cuota;
+}
+
+return `
+<div class="item">
 <b>${f.numero}</b> - ${f.fecha}<br>
 ${f.tipo.toUpperCase()} | ${f.contacto}<br>
 ${f.concepto}<br>
@@ -191,7 +301,8 @@ Base: ${eur(f.base)}<br>
 Impuesto ${f.imp}%: ${eur(f.cuota)}<br>
 Total: <b>${eur(f.total)}</b>
 <button class="red" onclick="borrarFactura(${i})">Eliminar</button>
-</div>`;
+</div>
+`;
 }).join("")||"Sin facturas";
 
 lista_asientos.innerHTML=db.asientos.map((a,i)=>`
@@ -200,7 +311,8 @@ lista_asientos.innerHTML=db.asientos.map((a,i)=>`
 ${a.desc}<br>
 Debe: ${eur(a.debe)} | Haber: ${eur(a.haber)}
 <button class="red" onclick="borrarAsiento(${i})">Eliminar</button>
-</div>`).join("")||"Sin asientos";
+</div>
+`).join("")||"Sin asientos";
 
 let beneficio=ingresos-gastos;
 let liq=rep-sop;
@@ -215,7 +327,71 @@ k_liq.innerText=eur(liq);
 i_rep.innerText=eur(rep);
 i_sop.innerText=eur(sop);
 i_liq.innerText=eur(liq);
-i_estado.innerHTML=liq>0?"A pagar a Hacienda":"A compensar / devolver";
+
+i_estado.innerHTML=liq>0
+? "A pagar a Hacienda"
+: "A compensar / devolver";
+}
+
+async function procesarOCR(){
+const file=document.getElementById("ocr_file").files[0];
+
+if(!file)return;
+
+document.getElementById("ocr_estado").innerText="Reconociendo texto...";
+
+try{
+const resultado=await Tesseract.recognize(
+file,
+"spa",
+{
+logger:m=>{
+if(m.status){
+document.getElementById("ocr_estado").innerText=
+m.status+" "+Math.round((m.progress||0)*100)+"%";
+}
+}
+}
+);
+
+document.getElementById("ocr_texto").value=resultado.data.text;
+document.getElementById("ocr_estado").innerText="OCR completado";
+
+}catch(e){
+document.getElementById("ocr_estado").innerText="Error OCR";
+alert("No se pudo reconocer la imagen");
+}
+}
+
+function crearFacturaDesdeOCR(){
+const texto=document.getElementById("ocr_texto").value;
+
+if(!texto.trim()){
+alert("No hay texto OCR");
+return;
+}
+
+const importes=texto.match(/\d+[,.]\d{2}/g)||[];
+const posibleTotal=importes.length
+? importes[importes.length-1].replace(",",".")
+: "";
+
+let posibleProveedor="Proveedor OCR";
+let lineas=texto.split("\n").filter(l=>l.trim().length>3);
+
+if(lineas.length>0){
+posibleProveedor=lineas[0].substring(0,40);
+}
+
+f_numero.value="OCR-"+Date.now();
+f_contacto.value=posibleProveedor;
+f_concepto.value=texto.substring(0,80);
+f_base.value=posibleTotal;
+f_tipo.value="compra";
+
+ver("facturas");
+
+alert("Datos enviados al módulo de facturas. Revisa antes de guardar.");
 }
 
 function exportar(){
@@ -229,7 +405,9 @@ try{
 db=JSON.parse(importar_txt.value);
 save();
 alert("Datos importados");
-}catch(e){alert("JSON no válido");}
+}catch(e){
+alert("JSON no válido");
+}
 }
 
 function borrarTodo(){
@@ -243,4 +421,4 @@ pintar();
 </script>
 
 </body>
-</html>
+  </html>
