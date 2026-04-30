@@ -1,14 +1,68 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>ContablOS</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ContablOS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      background: #0f172a;
+      color: white;
+    }
+    header {
+      background: #020617;
+      padding: 20px;
+      text-align: center;
+    }
+    .container {
+      padding: 15px;
+    }
+    .card {
+      background: #1e293b;
+      border-radius: 14px;
+      padding: 15px;
+      margin-bottom: 15px;
+    }
+    input, select, button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 10px;
+      border: none;
+      font-size: 16px;
+    }
+    button {
+      background: #22c55e;
+      color: white;
+      font-weight: bold;
+    }
+    .danger {
+      background: #dc2626;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .total {
+      font-size: 22px;
+      font-weight: bold;
+    }
+    .small {
+      color: #94a3b8;
+      font-size: 14px;
+    }
+    .item {
+      background: #334155;
+      padding: 10px;
+      border-radius: 10px;
+      margin-top: 8px;
+    }
+  </style>
 </head>
 <body>
-    <h1>ContablOS v1.0</h1>
-    <p>Sistema contable en desarrollo</p>
 
-    <button onclick="alert('Sistema activo')">
-        Probar sistema
-    </button>
-</body>
-</html>
+<header>
+  <h1>ContablOS</h1>
