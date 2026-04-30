@@ -1,200 +1,245 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ContablOS</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      background: #0f172a;
-      color: white;
-    }
-    header {
-      background: #020617;
-      padding: 20px;
-      text-align: center;
-    }
-    .container {
-      padding: 15px;
-    }
-    .card {
-      background: #1e293b;
-      border-radius: 14px;
-      padding: 15px;
-      margin-bottom: 15px;
-    }
-    input, select, button {
-      width: 100%;
-      padding: 12px;
-      margin-top: 8px;
-      border-radius: 10px;
-      border: none;
-      font-size: 16px;
-    }
-    button {
-      background: #22c55e;
-      color: white;
-      font-weight: bold;
-    }
-    .danger {
-      background: #dc2626;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-    .total {
-      font-size: 22px;
-      font-weight: bold;
-    }
-    .small {
-      color: #94a3b8;
-      font-size: 14px;
-    }
-    .item {
-      background: #334155;
-      padding: 10px;
-      border-radius: 10px;
-      margin-top: 8px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ContablOS v1.1</title>
+<style>
+body{margin:0;font-family:Arial;background:#0f172a;color:white}
+header{background:#020617;padding:18px;text-align:center;position:sticky;top:0;z-index:10}
+nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;background:#111827}
+nav button{padding:10px;border:0;border-radius:10px;background:#334155;color:white}
+section{display:none;padding:15px}
+section.active{display:block}
+.card{background:#1e293b;padding:15px;border-radius:15px;margin-bottom:15px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+input,select,textarea,button{width:100%;box-sizing:border-box;margin-top:8px;padding:12px;border:0;border-radius:10px;font-size:15px}
+button{background:#22c55e;color:white;font-weight:bold}
+.red{background:#dc2626}
+.blue{background:#2563eb}
+.orange{background:#f97316}
+.small{color:#94a3b8;font-size:13px}
+.total{font-size:24px;font-weight:bold}
+.item{background:#334155;padding:12px;border-radius:12px;margin-top:10px}
+h2{margin-top:0}
+</style>
 </head>
 <body>
 
 <header>
-  <h1>ContablOS</h1>
-  <p>Sistema contable móvil</p>
+<h1>ContablOS v1.1</h1>
+<div class="small">Sistema contable móvil</div>
 </header>
 
-<div class="container">
+<nav>
+<button onclick="ver('dashboard')">Dashboard</button>
+<button onclick="ver('clientes')">Clientes</button>
+<button onclick="ver('facturas')">Facturas</button>
+<button onclick="ver('asientos')">Asientos</button>
+<button onclick="ver('impuestos')">Impuestos</button>
+<button onclick="ver('datos')">Datos</button>
+</nav>
 
-  <div class="grid">
-    <div class="card">
-      <div class="small">Ingresos</div>
-      <div class="total" id="ingresos">0 €</div>
-    </div>
-    <div class="card">
-      <div class="small">Gastos</div>
-      <div class="total" id="gastos">0 €</div>
-    </div>
-  </div>
-
-  <div class="card">
-    <div class="small">Beneficio estimado</div>
-    <div class="total" id="beneficio">0 €</div>
-  </div>
-
-  <div class="card">
-    <h2>Nueva factura</h2>
-
-    <input id="concepto" placeholder="Concepto">
-    <input id="importe" type="number" placeholder="Base imponible">
-
-    <select id="tipo">
-      <option value="ingreso">Ingreso / Venta</option>
-      <option value="gasto">Gasto / Compra</option>
-    </select>
-
-    <select id="impuesto">
-      <option value="0">Sin impuesto</option>
-      <option value="3">IGIC 3%</option>
-      <option value="7">IGIC 7%</option>
-      <option value="21">IVA 21%</option>
-    </select>
-
-    <button onclick="guardarFactura()">Guardar factura</button>
-  </div>
-
-  <div class="card">
-    <h2>Facturas</h2>
-    <div id="lista"></div>
-  </div>
-
-  <button class="danger" onclick="borrarTodo()">Borrar datos</button>
-
+<section id="dashboard" class="active">
+<div class="grid">
+<div class="card"><div class="small">Ingresos</div><div class="total" id="k_ingresos">0 €</div></div>
+<div class="card"><div class="small">Gastos</div><div class="total" id="k_gastos">0 €</div></div>
 </div>
+<div class="card"><div class="small">Beneficio</div><div class="total" id="k_beneficio">0 €</div></div>
+<div class="grid">
+<div class="card"><div class="small">IVA/IGIC repercutido</div><div class="total" id="k_rep">0 €</div></div>
+<div class="card"><div class="small">IVA/IGIC soportado</div><div class="total" id="k_sop">0 €</div></div>
+</div>
+<div class="card"><div class="small">Liquidación estimada</div><div class="total" id="k_liq">0 €</div></div>
+</section>
+
+<section id="clientes">
+<div class="card">
+<h2>Nuevo cliente/proveedor</h2>
+<input id="c_nombre" placeholder="Nombre">
+<input id="c_nif" placeholder="NIF/CIF/NIE">
+<input id="c_email" placeholder="Email">
+<input id="c_tel" placeholder="Teléfono">
+<select id="c_tipo">
+<option value="cliente">Cliente</option>
+<option value="proveedor">Proveedor</option>
+</select>
+<button onclick="guardarContacto()">Guardar</button>
+</div>
+<div class="card"><h2>Contactos</h2><div id="lista_contactos"></div></div>
+</section>
+
+<section id="facturas">
+<div class="card">
+<h2>Nueva factura</h2>
+<input id="f_numero" placeholder="Número factura">
+<input id="f_contacto" placeholder="Cliente / proveedor">
+<input id="f_concepto" placeholder="Concepto">
+<input id="f_base" type="number" placeholder="Base imponible">
+<select id="f_tipo">
+<option value="venta">Factura emitida / venta</option>
+<option value="compra">Factura recibida / compra</option>
+</select>
+<select id="f_imp">
+<option value="0">0%</option>
+<option value="3">IGIC 3%</option>
+<option value="7">IGIC 7%</option>
+<option value="10">IVA 10%</option>
+<option value="21">IVA 21%</option>
+</select>
+<button onclick="guardarFactura()">Guardar factura</button>
+</div>
+<div class="card"><h2>Facturas</h2><div id="lista_facturas"></div></div>
+</section>
+
+<section id="asientos">
+<div class="card">
+<h2>Nuevo asiento</h2>
+<input id="a_desc" placeholder="Descripción">
+<input id="a_debe" type="number" placeholder="Debe">
+<input id="a_haber" type="number" placeholder="Haber">
+<input id="a_cuenta" placeholder="Cuenta contable">
+<button onclick="guardarAsiento()">Guardar asiento</button>
+</div>
+<div class="card"><h2>Libro diario</h2><div id="lista_asientos"></div></div>
+</section>
+
+<section id="impuestos">
+<div class="card">
+<h2>Resumen fiscal</h2>
+<p>Repercutido: <b id="i_rep">0 €</b></p>
+<p>Soportado: <b id="i_sop">0 €</b></p>
+<p>Resultado liquidación: <b id="i_liq">0 €</b></p>
+</div>
+<div class="card">
+<h2>Estado</h2>
+<div id="i_estado"></div>
+</div>
+</section>
+
+<section id="datos">
+<div class="card">
+<h2>Exportar / importar</h2>
+<button class="blue" onclick="exportar()">Exportar copia JSON</button>
+<textarea id="importar_txt" rows="8" placeholder="Pega aquí una copia JSON"></textarea>
+<button class="orange" onclick="importar()">Importar datos</button>
+<button class="red" onclick="borrarTodo()">Borrar todo</button>
+</div>
+</section>
 
 <script>
-  let facturas = JSON.parse(localStorage.getItem("facturas")) || [];
+let db=JSON.parse(localStorage.getItem("contablos_db"))||{
+contactos:[],facturas:[],asientos:[]
+};
 
-  function guardarFactura() {
-    const concepto = document.getElementById("concepto").value;
-    const importe = parseFloat(document.getElementById("importe").value);
-    const tipo = document.getElementById("tipo").value;
-    const impuesto = parseFloat(document.getElementById("impuesto").value);
+function save(){localStorage.setItem("contablos_db",JSON.stringify(db));pintar();}
+function eur(n){return (Number(n)||0).toFixed(2)+" €";}
+function ver(id){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");}
 
-    if (!concepto || isNaN(importe)) {
-      alert("Introduce concepto e importe");
-      return;
-    }
+function guardarContacto(){
+let c={nombre:c_nombre.value,nif:c_nif.value,email:c_email.value,tel:c_tel.value,tipo:c_tipo.value};
+if(!c.nombre){alert("Falta nombre");return;}
+db.contactos.push(c);c_nombre.value=c_nif.value=c_email.value=c_tel.value="";save();
+}
 
-    const cuota = importe * impuesto / 100;
-    const total = importe + cuota;
+function guardarFactura(){
+let base=parseFloat(f_base.value);
+if(!f_numero.value||!f_concepto.value||isNaN(base)){alert("Faltan datos");return;}
+let imp=parseFloat(f_imp.value);
+let cuota=base*imp/100;
+db.facturas.push({
+numero:f_numero.value,
+contacto:f_contacto.value,
+concepto:f_concepto.value,
+base,imp,cuota,total:base+cuota,
+tipo:f_tipo.value,
+fecha:new Date().toLocaleDateString()
+});
+f_numero.value=f_contacto.value=f_concepto.value=f_base.value="";
+save();
+}
 
-    facturas.push({
-      concepto,
-      importe,
-      impuesto,
-      cuota,
-      total,
-      tipo,
-      fecha: new Date().toLocaleDateString()
-    });
+function guardarAsiento(){
+let debe=parseFloat(a_debe.value)||0;
+let haber=parseFloat(a_haber.value)||0;
+if(!a_desc.value){alert("Falta descripción");return;}
+db.asientos.push({desc:a_desc.value,debe,haber,cuenta:a_cuenta.value,fecha:new Date().toLocaleDateString()});
+a_desc.value=a_debe.value=a_haber.value=a_cuenta.value="";
+save();
+}
 
-    localStorage.setItem("facturas", JSON.stringify(facturas));
+function borrarContacto(i){db.contactos.splice(i,1);save();}
+function borrarFactura(i){db.facturas.splice(i,1);save();}
+function borrarAsiento(i){db.asientos.splice(i,1);save();}
 
-    document.getElementById("concepto").value = "";
-    document.getElementById("importe").value = "";
+function pintar(){
+let ingresos=0,gastos=0,rep=0,sop=0;
 
-    pintar();
-  }
+lista_contactos.innerHTML=db.contactos.map((c,i)=>`
+<div class="item">
+<b>${c.nombre}</b><br>${c.tipo}<br>${c.nif||""}<br>${c.email||""}<br>${c.tel||""}
+<button class="red" onclick="borrarContacto(${i})">Eliminar</button>
+</div>`).join("")||"Sin contactos";
 
-  function pintar() {
-    let ingresos = 0;
-    let gastos = 0;
-    let html = "";
+lista_facturas.innerHTML=db.facturas.map((f,i)=>{
+if(f.tipo=="venta"){ingresos+=f.total;rep+=f.cuota}else{gastos+=f.total;sop+=f.cuota}
+return `<div class="item">
+<b>${f.numero}</b> - ${f.fecha}<br>
+${f.tipo.toUpperCase()} | ${f.contacto}<br>
+${f.concepto}<br>
+Base: ${eur(f.base)}<br>
+Impuesto ${f.imp}%: ${eur(f.cuota)}<br>
+Total: <b>${eur(f.total)}</b>
+<button class="red" onclick="borrarFactura(${i})">Eliminar</button>
+</div>`;
+}).join("")||"Sin facturas";
 
-    facturas.forEach((f, i) => {
-      if (f.tipo === "ingreso") ingresos += f.total;
-      else gastos += f.total;
+lista_asientos.innerHTML=db.asientos.map((a,i)=>`
+<div class="item">
+<b>${a.fecha}</b> - ${a.cuenta||"Sin cuenta"}<br>
+${a.desc}<br>
+Debe: ${eur(a.debe)} | Haber: ${eur(a.haber)}
+<button class="red" onclick="borrarAsiento(${i})">Eliminar</button>
+</div>`).join("")||"Sin asientos";
 
-      html += `
-        <div class="item">
-          <strong>${f.concepto}</strong><br>
-          ${f.fecha}<br>
-          Tipo: ${f.tipo}<br>
-          Base: ${f.importe.toFixed(2)} €<br>
-          Impuesto: ${f.impuesto}% = ${f.cuota.toFixed(2)} €<br>
-          Total: <strong>${f.total.toFixed(2)} €</strong><br>
-          <button class="danger" onclick="borrarFactura(${i})">Eliminar</button>
-        </div>
-      `;
-    });
+let beneficio=ingresos-gastos;
+let liq=rep-sop;
 
-    document.getElementById("ingresos").innerText = ingresos.toFixed(2) + " €";
-    document.getElementById("gastos").innerText = gastos.toFixed(2) + " €";
-    document.getElementById("beneficio").innerText = (ingresos - gastos).toFixed(2) + " €";
-    document.getElementById("lista").innerHTML = html || "<p>No hay facturas todavía.</p>";
-  }
+k_ingresos.innerText=eur(ingresos);
+k_gastos.innerText=eur(gastos);
+k_beneficio.innerText=eur(beneficio);
+k_rep.innerText=eur(rep);
+k_sop.innerText=eur(sop);
+k_liq.innerText=eur(liq);
 
-  function borrarFactura(i) {
-    facturas.splice(i, 1);
-    localStorage.setItem("facturas", JSON.stringify(facturas));
-    pintar();
-  }
+i_rep.innerText=eur(rep);
+i_sop.innerText=eur(sop);
+i_liq.innerText=eur(liq);
+i_estado.innerHTML=liq>0?"A pagar a Hacienda":"A compensar / devolver";
+}
 
-  function borrarTodo() {
-    if (confirm("¿Seguro que quieres borrar todos los datos?")) {
-      facturas = [];
-      localStorage.removeItem("facturas");
-      pintar();
-    }
-  }
+function exportar(){
+let txt=JSON.stringify(db,null,2);
+navigator.clipboard.writeText(txt);
+alert("Copia JSON copiada al portapapeles");
+}
 
-  pintar();
+function importar(){
+try{
+db=JSON.parse(importar_txt.value);
+save();
+alert("Datos importados");
+}catch(e){alert("JSON no válido");}
+}
+
+function borrarTodo(){
+if(confirm("¿Borrar todos los datos?")){
+db={contactos:[],facturas:[],asientos:[]};
+save();
+}
+}
+
+pintar();
 </script>
 
 </body>
