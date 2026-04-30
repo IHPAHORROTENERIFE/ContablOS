@@ -3,83 +3,102 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ContablOS v1.2 OCR</title>
+<title>ContablOS Total v1.0</title>
 <style>
-body{margin:0;font-family:Arial;background:#0f172a;color:white}
-header{background:#020617;padding:18px;text-align:center;position:sticky;top:0;z-index:10}
-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:10px;background:#111827}
-nav button{padding:10px;border:0;border-radius:10px;background:#334155;color:white}
-section{display:none;padding:15px}
-section.active{display:block}
-.card{background:#1e293b;padding:15px;border-radius:15px;margin-bottom:15px}
+:root{--bg:#0f172a;--card:#1e293b;--soft:#334155;--txt:#fff;--muted:#94a3b8;--green:#22c55e;--blue:#2563eb;--red:#dc2626;--orange:#f97316;--yellow:#eab308}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--txt)}
+header{background:#020617;padding:18px;text-align:center;position:sticky;top:0;z-index:20;border-bottom:1px solid #1e293b}
+header h1{margin:0;font-size:24px}.small{color:var(--muted);font-size:13px}.wrap{padding:12px;max-width:980px;margin:auto}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;position:sticky;top:86px;background:var(--bg);padding:8px 0;z-index:10}
+.tabs button{background:var(--soft);color:white;border:0;border-radius:12px;padding:10px;font-weight:bold}
+.tabs button.active{background:var(--green)}
+section{display:none}section.active{display:block}
+.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:12px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-input,select,textarea,button{width:100%;box-sizing:border-box;margin-top:8px;padding:12px;border:0;border-radius:10px;font-size:15px}
-button{background:#22c55e;color:white;font-weight:bold}
-.red{background:#dc2626}
-.blue{background:#2563eb}
-.orange{background:#f97316}
-.small{color:#94a3b8;font-size:13px}
-.total{font-size:24px;font-weight:bold}
-.item{background:#334155;padding:12px;border-radius:12px;margin-top:10px}
-h2{margin-top:0}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+input,select,textarea,button{width:100%;padding:12px;border:0;border-radius:12px;margin-top:8px;font-size:15px}
+input,select,textarea{background:#f8fafc;color:#020617}
+button{background:var(--green);color:white;font-weight:bold}
+.blue{background:var(--blue)}.red{background:var(--red)}.orange{background:var(--orange)}.yellow{background:var(--yellow);color:#111827}
+.item{background:var(--soft);padding:12px;border-radius:14px;margin-top:10px;white-space:pre-wrap}
+.total{font-size:23px;font-weight:bold;margin-top:6px}
+.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#475569;margin:4px 4px 0 0;font-size:12px}
+.ok{color:#86efac}.bad{color:#fca5a5}.warn{color:#fde68a}
+table{width:100%;border-collapse:collapse;margin-top:8px}td,th{padding:8px;border-bottom:1px solid #475569;text-align:left;font-size:13px}
+.footer{padding:30px;text-align:center;color:var(--muted)}
+@media(max-width:600px){.tabs{grid-template-columns:repeat(3,1fr);top:83px}.grid3{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}header h1{font-size:21px}}
 </style>
 </head>
 <body>
 
 <header>
-<h1>ContablOS v1.2 OCR</h1>
-<div class="small">Sistema contable móvil con cámara y OCR</div>
+<h1>ContablOS Total v1.0</h1>
+<div class="small">ERP contable móvil · OCR · impuestos · bancos · KPI · CRM</div>
 </header>
 
-<nav>
-<button onclick="ver('dashboard')">Dashboard</button>
-<button onclick="ver('clientes')">Clientes</button>
-<button onclick="ver('facturas')">Facturas</button>
-<button onclick="ver('asientos')">Asientos</button>
-<button onclick="ver('impuestos')">Impuestos</button>
-<button onclick="ver('ocr')">OCR</button>
-<button onclick="ver('datos')">Datos</button>
+<div class="wrap">
+
+<nav class="tabs">
+<button onclick="tab('dashboard',this)" class="active">Dashboard</button>
+<button onclick="tab('clientes',this)">Clientes</button>
+<button onclick="tab('facturas',this)">Facturas</button>
+<button onclick="tab('ocr',this)">OCR</button>
+<button onclick="tab('asientos',this)">Asientos</button>
+<button onclick="tab('impuestos',this)">Impuestos</button>
+<button onclick="tab('bancos',this)">Bancos</button>
+<button onclick="tab('crm',this)">CRM</button>
+<button onclick="tab('kpi',this)">KPI</button>
+<button onclick="tab('informes',this)">Informes</button>
+<button onclick="tab('config',this)">Config</button>
+<button onclick="tab('datos',this)">Datos</button>
 </nav>
 
 <section id="dashboard" class="active">
-<div class="grid">
-<div class="card"><div class="small">Ingresos</div><div class="total" id="k_ingresos">0 €</div></div>
-<div class="card"><div class="small">Gastos</div><div class="total" id="k_gastos">0 €</div></div>
+<div class="grid3">
+<div class="card"><div class="small">Ingresos</div><div class="total" id="d_ing">0 €</div></div>
+<div class="card"><div class="small">Gastos</div><div class="total" id="d_gas">0 €</div></div>
+<div class="card"><div class="small">Beneficio</div><div class="total" id="d_ben">0 €</div></div>
 </div>
-<div class="card"><div class="small">Beneficio</div><div class="total" id="k_beneficio">0 €</div></div>
 <div class="grid">
-<div class="card"><div class="small">IVA/IGIC repercutido</div><div class="total" id="k_rep">0 €</div></div>
-<div class="card"><div class="small">IVA/IGIC soportado</div><div class="total" id="k_sop">0 €</div></div>
+<div class="card"><div class="small">Impuesto repercutido</div><div class="total" id="d_rep">0 €</div></div>
+<div class="card"><div class="small">Impuesto soportado</div><div class="total" id="d_sop">0 €</div></div>
 </div>
-<div class="card"><div class="small">Liquidación estimada</div><div class="total" id="k_liq">0 €</div></div>
+<div class="card"><div class="small">Liquidación estimada</div><div class="total" id="d_liq">0 €</div><div id="d_estado" class="small"></div></div>
 </section>
 
 <section id="clientes">
 <div class="card">
-<h2>Nuevo cliente/proveedor</h2>
-<input id="c_nombre" placeholder="Nombre">
+<h2>Clientes / Proveedores</h2>
+<input id="c_nombre" placeholder="Nombre fiscal">
 <input id="c_nif" placeholder="NIF/CIF/NIE">
 <input id="c_email" placeholder="Email">
 <input id="c_tel" placeholder="Teléfono">
+<input id="c_dir" placeholder="Dirección">
 <select id="c_tipo">
-<option value="cliente">Cliente</option>
-<option value="proveedor">Proveedor</option>
+<option>Cliente</option>
+<option>Proveedor</option>
+<option>Banco</option>
+<option>Administración</option>
 </select>
-<button onclick="guardarContacto()">Guardar</button>
+<button onclick="guardarContacto()">Guardar contacto</button>
 </div>
-<div class="card"><h2>Contactos</h2><div id="lista_contactos"></div></div>
+<div class="card">
+<h2>Listado</h2>
+<input id="buscar_contacto" oninput="pintar()" placeholder="Buscar contacto">
+<div id="lista_contactos"></div>
+</div>
 </section>
 
 <section id="facturas">
 <div class="card">
 <h2>Nueva factura</h2>
-<input id="f_numero" placeholder="Número factura">
-<input id="f_contacto" placeholder="Cliente / proveedor">
+<input id="f_num" placeholder="Número factura">
+<input id="f_tercero" placeholder="Cliente / proveedor">
 <input id="f_concepto" placeholder="Concepto">
-<input id="f_base" type="number" placeholder="Base imponible">
+<input id="f_base" type="number" step="0.01" placeholder="Base imponible">
 <select id="f_tipo">
-<option value="venta">Factura emitida / venta</option>
-<option value="compra">Factura recibida / compra</option>
+<option value="venta">Emitida / Venta</option>
+<option value="compra">Recibida / Compra</option>
 </select>
 <select id="f_imp">
 <option value="0">0%</option>
@@ -88,18 +107,43 @@ h2{margin-top:0}
 <option value="10">IVA 10%</option>
 <option value="21">IVA 21%</option>
 </select>
-<button onclick="guardarFactura()">Guardar factura</button>
+<select id="f_estado">
+<option>Pendiente</option>
+<option>Pagada</option>
+<option>Cobrada</option>
+<option>Vencida</option>
+</select>
+<button onclick="guardarFactura()">Guardar factura y asiento</button>
 </div>
-<div class="card"><h2>Facturas</h2><div id="lista_facturas"></div></div>
+<div class="card">
+<h2>Facturas</h2>
+<input id="buscar_factura" oninput="pintar()" placeholder="Buscar factura">
+<div id="lista_facturas"></div>
+</div>
+</section>
+
+<section id="ocr">
+<div class="card">
+<h2>Captura OCR de factura</h2>
+<input type="file" id="ocr_file" accept="image/*" capture="environment" onchange="procesarOCR()">
+<button class="blue" onclick="ocr_file.click()">Abrir cámara / subir imagen</button>
+<div id="ocr_estado" class="small">Esperando imagen...</div>
+<textarea id="ocr_texto" rows="12" placeholder="Texto reconocido"></textarea>
+<div class="grid">
+<button onclick="crearFacturaOCR('compra')">Crear compra desde OCR</button>
+<button class="orange" onclick="crearFacturaOCR('venta')">Crear venta desde OCR</button>
+</div>
+</div>
 </section>
 
 <section id="asientos">
 <div class="card">
-<h2>Nuevo asiento</h2>
+<h2>Asiento manual</h2>
+<input id="a_fecha" type="date">
 <input id="a_desc" placeholder="Descripción">
-<input id="a_debe" type="number" placeholder="Debe">
-<input id="a_haber" type="number" placeholder="Haber">
 <input id="a_cuenta" placeholder="Cuenta contable">
+<input id="a_debe" type="number" step="0.01" placeholder="Debe">
+<input id="a_haber" type="number" step="0.01" placeholder="Haber">
 <button onclick="guardarAsiento()">Guardar asiento</button>
 </div>
 <div class="card"><h2>Libro diario</h2><div id="lista_asientos"></div></div>
@@ -107,318 +151,386 @@ h2{margin-top:0}
 
 <section id="impuestos">
 <div class="card">
-<h2>Resumen fiscal</h2>
+<h2>IVA / IGIC</h2>
 <p>Repercutido: <b id="i_rep">0 €</b></p>
 <p>Soportado: <b id="i_sop">0 €</b></p>
-<p>Resultado liquidación: <b id="i_liq">0 €</b></p>
-</div>
-<div class="card">
-<h2>Estado</h2>
+<p>Resultado: <b id="i_liq">0 €</b></p>
 <div id="i_estado"></div>
 </div>
 </section>
 
-<section id="ocr">
+<section id="bancos">
 <div class="card">
-<h2>Captura OCR</h2>
-
-<input 
-type="file" 
-id="ocr_file" 
-accept="image/*" 
-capture="environment"
-onchange="procesarOCR()"
->
-
-<button class="blue" onclick="document.getElementById('ocr_file').click()">
-Abrir cámara / subir factura
-</button>
-
-<div id="ocr_estado" class="small">Esperando imagen...</div>
-
-<textarea id="ocr_texto" rows="12" placeholder="Texto reconocido"></textarea>
-
-<button onclick="crearFacturaDesdeOCR()">
-Crear factura desde OCR
-</button>
+<h2>Bancos / Tesorería</h2>
+<input id="b_banco" placeholder="Banco">
+<input id="b_concepto" placeholder="Concepto movimiento">
+<input id="b_importe" type="number" step="0.01" placeholder="Importe positivo/cobro o negativo/pago">
+<input id="b_fecha" type="date">
+<button onclick="guardarBanco()">Guardar movimiento bancario</button>
 </div>
+<div class="card"><h2>Movimientos</h2><div id="lista_bancos"></div></div>
+</section>
+
+<section id="crm">
+<div class="card">
+<h2>CRM / Comunicaciones</h2>
+<input id="m_para" placeholder="Para / cliente">
+<input id="m_asunto" placeholder="Asunto">
+<textarea id="m_texto" rows="5" placeholder="Mensaje"></textarea>
+<button onclick="guardarMensaje()">Guardar comunicación</button>
+</div>
+<div class="card"><h2>Historial CRM</h2><div id="lista_mensajes"></div></div>
+</section>
+
+<section id="kpi">
+<div class="card"><h2>KPI avanzado</h2><div id="kpi_box"></div></div>
+<div class="card"><h2>Puntos críticos</h2><div id="alertas_box"></div></div>
+</section>
+
+<section id="informes">
+<div class="card">
+<h2>Informe ejecutivo</h2>
+<button class="blue" onclick="generarInforme()">Generar informe</button>
+<textarea id="informe_txt" rows="18"></textarea>
+</div>
+</section>
+
+<section id="config">
+<div class="card">
+<h2>Configuración empresa</h2>
+<input id="cfg_empresa" placeholder="Empresa">
+<input id="cfg_cif" placeholder="CIF">
+<input id="cfg_cnae" placeholder="CNAE">
+<select id="cfg_territorio">
+<option>Canarias - IGIC</option>
+<option>Península/Baleares - IVA</option>
+<option>Ceuta</option>
+<option>Melilla</option>
+<option>Foral</option>
+</select>
+<button onclick="guardarConfig()">Guardar configuración</button>
+</div>
+<div class="card"><h2>Estado configuración</h2><div id="config_box"></div></div>
 </section>
 
 <section id="datos">
 <div class="card">
-<h2>Exportar / importar</h2>
-<button class="blue" onclick="exportar()">Exportar copia JSON</button>
-<textarea id="importar_txt" rows="8" placeholder="Pega aquí una copia JSON"></textarea>
-<button class="orange" onclick="importar()">Importar datos</button>
+<h2>Copias de seguridad</h2>
+<button class="blue" onclick="exportar()">Copiar JSON</button>
+<button class="orange" onclick="descargarJSON()">Descargar JSON</button>
+<textarea id="importar_txt" rows="8" placeholder="Pega aquí JSON para importar"></textarea>
+<button onclick="importar()">Importar JSON</button>
 <button class="red" onclick="borrarTodo()">Borrar todo</button>
 </div>
 </section>
 
+</div>
+
+<div class="footer">ContablOS Total · Prototipo local para GitHub Pages</div>
+
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <script>
-let db=JSON.parse(localStorage.getItem("contablos_db"))||{
-contactos:[],facturas:[],asientos:[]
+let db=JSON.parse(localStorage.getItem('contablos_total'))||{
+config:{empresa:'Comercializadora Eléctrica de Tenerife S.L.',territorio:'Canarias - IGIC'},
+contactos:[],
+facturas:[],
+asientos:[],
+bancos:[],
+mensajes:[]
 };
 
-function save(){
-localStorage.setItem("contablos_db",JSON.stringify(db));
-pintar();
+function save(){localStorage.setItem('contablos_total',JSON.stringify(db));pintar()}
+function eur(n){return (Number(n)||0).toFixed(2)+' €'}
+function hoy(){return new Date().toLocaleDateString()}
+
+function tab(id,btn){
+document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
+document.getElementById(id).classList.add('active');
+document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+if(btn)btn.classList.add('active');
 }
 
-function eur(n){
-return (Number(n)||0).toFixed(2)+" €";
-}
-
-function ver(id){
-document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-document.getElementById(id).classList.add("active");
+function tabById(id){
+let b=[...document.querySelectorAll('.tabs button')].find(x=>x.getAttribute('onclick').includes(id));
+tab(id,b);
 }
 
 function guardarContacto(){
-let c={
+if(!c_nombre.value)return alert('Falta nombre');
+db.contactos.push({
 nombre:c_nombre.value,
 nif:c_nif.value,
 email:c_email.value,
 tel:c_tel.value,
-tipo:c_tipo.value
-};
-
-if(!c.nombre){
-alert("Falta nombre");
-return;
-}
-
-db.contactos.push(c);
-c_nombre.value="";
-c_nif.value="";
-c_email.value="";
-c_tel.value="";
+dir:c_dir.value,
+tipo:c_tipo.value,
+fecha:hoy()
+});
+c_nombre.value=c_nif.value=c_email.value=c_tel.value=c_dir.value='';
 save();
 }
 
 function guardarFactura(){
 let base=parseFloat(f_base.value);
-
-if(!f_numero.value || !f_concepto.value || isNaN(base)){
-alert("Faltan datos");
-return;
-}
-
-let imp=parseFloat(f_imp.value);
+if(!f_num.value||!f_concepto.value||isNaN(base))return alert('Faltan datos');
+let imp=+f_imp.value;
 let cuota=base*imp/100;
+let total=base+cuota;
+let tipo=f_tipo.value;
 
 db.facturas.push({
-numero:f_numero.value,
-contacto:f_contacto.value,
+num:f_num.value,
+tercero:f_tercero.value,
 concepto:f_concepto.value,
-base:base,
-imp:imp,
-cuota:cuota,
-total:base+cuota,
-tipo:f_tipo.value,
-fecha:new Date().toLocaleDateString()
+base,
+imp,
+cuota,
+total,
+tipo,
+estado:f_estado.value,
+fecha:hoy()
 });
 
-f_numero.value="";
-f_contacto.value="";
-f_concepto.value="";
-f_base.value="";
+crearAsientoFactura({num:f_num.value,concepto:f_concepto.value,total,tipo});
+f_num.value=f_tercero.value=f_concepto.value=f_base.value='';
 save();
+}
+
+function crearAsientoFactura(f){
+if(f.tipo==='venta'){
+db.asientos.push({fecha:hoy(),desc:'Factura venta '+f.num+' '+f.concepto,cuenta:'430/700/477',debe:f.total,haber:f.total});
+}else{
+db.asientos.push({fecha:hoy(),desc:'Factura compra '+f.num+' '+f.concepto,cuenta:'600/472/400',debe:f.total,haber:f.total});
+}
 }
 
 function guardarAsiento(){
-let debe=parseFloat(a_debe.value)||0;
-let haber=parseFloat(a_haber.value)||0;
-
-if(!a_desc.value){
-alert("Falta descripción");
-return;
-}
-
+if(!a_desc.value)return alert('Falta descripción');
 db.asientos.push({
+fecha:a_fecha.value||hoy(),
 desc:a_desc.value,
-debe:debe,
-haber:haber,
 cuenta:a_cuenta.value,
-fecha:new Date().toLocaleDateString()
+debe:+a_debe.value||0,
+haber:+a_haber.value||0
 });
-
-a_desc.value="";
-a_debe.value="";
-a_haber.value="";
-a_cuenta.value="";
+a_fecha.value=a_desc.value=a_cuenta.value=a_debe.value=a_haber.value='';
 save();
 }
 
-function borrarContacto(i){
-db.contactos.splice(i,1);
+function guardarBanco(){
+if(!b_concepto.value)return alert('Falta concepto');
+db.bancos.push({
+banco:b_banco.value,
+concepto:b_concepto.value,
+importe:+b_importe.value||0,
+fecha:b_fecha.value||hoy()
+});
+b_banco.value=b_concepto.value=b_importe.value=b_fecha.value='';
 save();
 }
 
-function borrarFactura(i){
-db.facturas.splice(i,1);
+function guardarMensaje(){
+if(!m_texto.value)return alert('Falta mensaje');
+db.mensajes.push({
+para:m_para.value,
+asunto:m_asunto.value,
+texto:m_texto.value,
+fecha:new Date().toLocaleString()
+});
+m_para.value=m_asunto.value=m_texto.value='';
 save();
 }
 
-function borrarAsiento(i){
-db.asientos.splice(i,1);
+function guardarConfig(){
+db.config={
+empresa:cfg_empresa.value||db.config.empresa,
+cif:cfg_cif.value,
+cnae:cfg_cnae.value,
+territorio:cfg_territorio.value
+};
 save();
+}
+
+function del(arr,i){
+db[arr].splice(i,1);
+save();
+}
+
+function resumen(){
+let ing=0,gas=0,rep=0,sop=0;
+db.facturas.forEach(f=>{
+if(f.tipo==='venta'){ing+=f.total;rep+=f.cuota}
+else{gas+=f.total;sop+=f.cuota}
+});
+let bancos=db.bancos.reduce((a,b)=>a+(+b.importe||0),0);
+return{ing,gas,rep,sop,ben:ing-gas,liq:rep-sop,bancos};
 }
 
 function pintar(){
-let ingresos=0;
-let gastos=0;
-let rep=0;
-let sop=0;
+let r=resumen();
 
-lista_contactos.innerHTML=db.contactos.map((c,i)=>`
+d_ing.innerText=eur(r.ing);
+d_gas.innerText=eur(r.gas);
+d_ben.innerText=eur(r.ben);
+d_rep.innerText=eur(r.rep);
+d_sop.innerText=eur(r.sop);
+d_liq.innerText=eur(r.liq);
+d_estado.innerHTML=r.liq>0?'<span class="warn">A pagar</span>':'<span class="ok">A compensar/devolver</span>';
+
+i_rep.innerText=eur(r.rep);
+i_sop.innerText=eur(r.sop);
+i_liq.innerText=eur(r.liq);
+i_estado.innerHTML=d_estado.innerHTML;
+
+let bc=(buscar_contacto?.value||'').toLowerCase();
+lista_contactos.innerHTML=db.contactos
+.filter(c=>JSON.stringify(c).toLowerCase().includes(bc))
+.map((c,i)=>`
 <div class="item">
-<b>${c.nombre}</b><br>
-${c.tipo}<br>
-${c.nif||""}<br>
-${c.email||""}<br>
-${c.tel||""}
-<button class="red" onclick="borrarContacto(${i})">Eliminar</button>
-</div>
-`).join("")||"Sin contactos";
+<b>${c.nombre}</b> <span class="pill">${c.tipo}</span><br>
+${c.nif||''}<br>${c.email||''}<br>${c.tel||''}<br>${c.dir||''}
+<button class="red" onclick="del('contactos',${i})">Eliminar</button>
+</div>`).join('')||'Sin contactos';
 
-lista_facturas.innerHTML=db.facturas.map((f,i)=>{
-if(f.tipo=="venta"){
-ingresos+=f.total;
-rep+=f.cuota;
-}else{
-gastos+=f.total;
-sop+=f.cuota;
-}
-
-return `
+let bf=(buscar_factura?.value||'').toLowerCase();
+lista_facturas.innerHTML=db.facturas
+.filter(f=>JSON.stringify(f).toLowerCase().includes(bf))
+.map((f,i)=>`
 <div class="item">
-<b>${f.numero}</b> - ${f.fecha}<br>
-${f.tipo.toUpperCase()} | ${f.contacto}<br>
+<b>${f.num}</b> <span class="pill">${f.tipo}</span> <span class="pill">${f.estado}</span><br>
+${f.fecha} · ${f.tercero||''}<br>
 ${f.concepto}<br>
-Base: ${eur(f.base)}<br>
-Impuesto ${f.imp}%: ${eur(f.cuota)}<br>
-Total: <b>${eur(f.total)}</b>
-<button class="red" onclick="borrarFactura(${i})">Eliminar</button>
-</div>
-`;
-}).join("")||"Sin facturas";
+Base ${eur(f.base)} · Imp ${f.imp}% ${eur(f.cuota)}<br>
+<b>Total ${eur(f.total)}</b>
+<button class="red" onclick="del('facturas',${i})">Eliminar</button>
+</div>`).join('')||'Sin facturas';
 
 lista_asientos.innerHTML=db.asientos.map((a,i)=>`
 <div class="item">
-<b>${a.fecha}</b> - ${a.cuenta||"Sin cuenta"}<br>
+<b>${a.fecha}</b> ${a.cuenta||''}<br>
 ${a.desc}<br>
-Debe: ${eur(a.debe)} | Haber: ${eur(a.haber)}
-<button class="red" onclick="borrarAsiento(${i})">Eliminar</button>
-</div>
-`).join("")||"Sin asientos";
+Debe ${eur(a.debe)} · Haber ${eur(a.haber)}
+<button class="red" onclick="del('asientos',${i})">Eliminar</button>
+</div>`).join('')||'Sin asientos';
 
-let beneficio=ingresos-gastos;
-let liq=rep-sop;
+lista_bancos.innerHTML=db.bancos.map((b,i)=>`
+<div class="item">
+<b>${b.fecha}</b> ${b.banco||''}<br>
+${b.concepto}<br>
+<b>${eur(b.importe)}</b>
+<button class="red" onclick="del('bancos',${i})">Eliminar</button>
+</div>`).join('')||'Sin movimientos';
 
-k_ingresos.innerText=eur(ingresos);
-k_gastos.innerText=eur(gastos);
-k_beneficio.innerText=eur(beneficio);
-k_rep.innerText=eur(rep);
-k_sop.innerText=eur(sop);
-k_liq.innerText=eur(liq);
+lista_mensajes.innerHTML=db.mensajes.map((m,i)=>`
+<div class="item">
+<b>${m.asunto||'Sin asunto'}</b><br>
+${m.fecha} · ${m.para||''}<br>
+${m.texto}
+<button class="red" onclick="del('mensajes',${i})">Eliminar</button>
+</div>`).join('')||'Sin mensajes';
 
-i_rep.innerText=eur(rep);
-i_sop.innerText=eur(sop);
-i_liq.innerText=eur(liq);
+config_box.innerHTML=`<b>${db.config.empresa||''}</b><br>${db.config.cif||''}<br>CNAE: ${db.config.cnae||''}<br>${db.config.territorio||''}`;
 
-i_estado.innerHTML=liq>0
-? "A pagar a Hacienda"
-: "A compensar / devolver";
+kpi_box.innerHTML=`
+<table>
+<tr><th>KPI</th><th>Valor</th></tr>
+<tr><td>Margen</td><td>${r.ing?((r.ben/r.ing)*100).toFixed(2):0}%</td></tr>
+<tr><td>Facturas</td><td>${db.facturas.length}</td></tr>
+<tr><td>Contactos</td><td>${db.contactos.length}</td></tr>
+<tr><td>Tesorería</td><td>${eur(r.bancos)}</td></tr>
+</table>`;
+
+let alerts=[];
+if(r.ben<0)alerts.push('Beneficio negativo');
+if(r.liq>0)alerts.push('Liquidación fiscal a pagar');
+if(db.facturas.filter(f=>f.estado==='Pendiente'||f.estado==='Vencida').length>0)alerts.push('Hay facturas pendientes o vencidas');
+alertas_box.innerHTML=alerts.map(a=>`<div class="item bad">${a}</div>`).join('')||'<div class="item ok">Sin alertas críticas</div>';
 }
 
 async function procesarOCR(){
-const file=document.getElementById("ocr_file").files[0];
-
+let file=ocr_file.files[0];
 if(!file)return;
-
-document.getElementById("ocr_estado").innerText="Reconociendo texto...";
-
+ocr_estado.innerText='Reconociendo...';
 try{
-const resultado=await Tesseract.recognize(
-file,
-"spa",
-{
+let res=await Tesseract.recognize(file,'spa',{
 logger:m=>{
-if(m.status){
-document.getElementById("ocr_estado").innerText=
-m.status+" "+Math.round((m.progress||0)*100)+"%";
+if(m.status)ocr_estado.innerText=m.status+' '+Math.round((m.progress||0)*100)+'%';
 }
-}
-}
-);
-
-document.getElementById("ocr_texto").value=resultado.data.text;
-document.getElementById("ocr_estado").innerText="OCR completado";
-
+});
+ocr_texto.value=res.data.text;
+ocr_estado.innerText='OCR completado';
 }catch(e){
-document.getElementById("ocr_estado").innerText="Error OCR";
-alert("No se pudo reconocer la imagen");
+ocr_estado.innerText='Error OCR';
 }
 }
 
-function crearFacturaDesdeOCR(){
-const texto=document.getElementById("ocr_texto").value;
+function crearFacturaOCR(tipo){
+let t=ocr_texto.value;
+if(!t.trim())return alert('No hay texto OCR');
+let nums=t.match(/\d+[,.]\d{2}/g)||[];
+let total=nums.length?nums[nums.length-1].replace(',','.'):'';
+let lines=t.split('\n').filter(x=>x.trim().length>2);
 
-if(!texto.trim()){
-alert("No hay texto OCR");
-return;
+f_num.value='OCR-'+Date.now();
+f_tercero.value=(lines[0]||'Proveedor OCR').substring(0,50);
+f_concepto.value=t.substring(0,90);
+f_base.value=total;
+f_tipo.value=tipo;
+tabById('facturas');
 }
 
-const importes=texto.match(/\d+[,.]\d{2}/g)||[];
-const posibleTotal=importes.length
-? importes[importes.length-1].replace(",",".")
-: "";
+function generarInforme(){
+let r=resumen();
+informe_txt.value=
+`INFORME CONTABLOS
+Empresa: ${db.config.empresa||''}
+Fecha: ${new Date().toLocaleString()}
 
-let posibleProveedor="Proveedor OCR";
-let lineas=texto.split("\n").filter(l=>l.trim().length>3);
+Ingresos: ${eur(r.ing)}
+Gastos: ${eur(r.gas)}
+Beneficio: ${eur(r.ben)}
+Repercutido: ${eur(r.rep)}
+Soportado: ${eur(r.sop)}
+Liquidación: ${eur(r.liq)}
+Tesorería: ${eur(r.bancos)}
 
-if(lineas.length>0){
-posibleProveedor=lineas[0].substring(0,40);
-}
-
-f_numero.value="OCR-"+Date.now();
-f_contacto.value=posibleProveedor;
-f_concepto.value=texto.substring(0,80);
-f_base.value=posibleTotal;
-f_tipo.value="compra";
-
-ver("facturas");
-
-alert("Datos enviados al módulo de facturas. Revisa antes de guardar.");
+Facturas: ${db.facturas.length}
+Contactos: ${db.contactos.length}
+Asientos: ${db.asientos.length}
+Movimientos banco: ${db.bancos.length}`;
 }
 
 function exportar(){
-let txt=JSON.stringify(db,null,2);
-navigator.clipboard.writeText(txt);
-alert("Copia JSON copiada al portapapeles");
+navigator.clipboard.writeText(JSON.stringify(db,null,2));
+alert('JSON copiado');
+}
+
+function descargarJSON(){
+let a=document.createElement('a');
+a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:'application/json'}));
+a.download='contablos_backup_'+Date.now()+'.json';
+a.click();
 }
 
 function importar(){
 try{
 db=JSON.parse(importar_txt.value);
 save();
-alert("Datos importados");
+alert('Importado');
 }catch(e){
-alert("JSON no válido");
+alert('JSON no válido');
 }
 }
 
 function borrarTodo(){
-if(confirm("¿Borrar todos los datos?")){
-db={contactos:[],facturas:[],asientos:[]};
-save();
+if(confirm('¿Borrar todo?')){
+localStorage.removeItem('contablos_total');
+location.reload();
 }
 }
 
 pintar();
 </script>
-
 </body>
-  </html>
+                                        </html>
