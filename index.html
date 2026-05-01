@@ -3,127 +3,768 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ContablOS Fusion MAX</title>
+<title>ContablOS MAX v2 - ERP + TPV Voz</title>
 <style>
-:root{--bg:#160303;--card:#2a0808;--soft:#4a1111;--main:#dc2626;--txt:#fff;--muted:#fca5a5;--blue:#2563eb;--green:#16a34a;--orange:#f97316;--yellow:#facc15;--dark:#080101}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--txt)}header{background:var(--dark);padding:16px;text-align:center;position:sticky;top:0;z-index:30;border-bottom:1px solid #7f1d1d}
-h1{margin:0;font-size:22px}.wrap{padding:12px;max-width:1200px;margin:auto}.small{color:var(--muted);font-size:13px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:sticky;top:72px;background:var(--bg);padding:8px 0;z-index:20}
-button{width:100%;padding:11px;border:0;border-radius:12px;background:var(--main);color:white;font-weight:bold;margin-top:8px}.tabs button{background:var(--soft)}.tabs button.active{background:var(--main)}
-section{display:none}section.active{display:block}.card{background:var(--card);border:1px solid #7f1d1d;border-radius:16px;padding:14px;margin-bottom:12px}
-input,select,textarea{width:100%;padding:12px;border:0;border-radius:12px;margin-top:8px;font-size:15px}.item{background:var(--soft);border-radius:14px;padding:12px;margin-top:10px;white-space:pre-wrap}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.total{font-size:24px;font-weight:bold}.red{background:#7f1d1d}.blue{background:var(--blue)}.green{background:var(--green)}.orange{background:var(--orange)}.yellow{background:var(--yellow);color:#111}.pill{display:inline-block;background:#7f1d1d;border-radius:99px;padding:4px 8px;font-size:12px;margin:2px}
-.ok{color:#86efac}.bad{color:#fca5a5}.warn{color:#fde68a}table{width:100%;border-collapse:collapse;margin-top:8px}td,th{padding:8px;border-bottom:1px solid #7f1d1d;text-align:left;font-size:13px}
-@media(max-width:700px){.tabs{grid-template-columns:repeat(3,1fr)}.grid3{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}}
+:root{
+--bg:#150303;--card:#2a0707;--soft:#4a1111;--main:#dc2626;--dark:#070101;
+--txt:#fff;--muted:#fca5a5;--blue:#2563eb;--green:#16a34a;--orange:#f97316;--yellow:#facc15;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--txt)}
+header{background:var(--dark);padding:14px;text-align:center;position:sticky;top:0;z-index:50;border-bottom:1px solid #7f1d1d}
+h1{margin:0;font-size:21px}
+h2{margin-top:0}
+.wrap{padding:12px;max-width:1200px;margin:auto}
+.small{color:var(--muted);font-size:13px}
+.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;position:sticky;top:67px;background:var(--bg);padding:8px 0;z-index:40}
+button{width:100%;padding:11px;border:0;border-radius:12px;background:var(--main);color:white;font-weight:bold;margin-top:8px}
+.tabs button{background:var(--soft);font-size:13px}
+.tabs button.active{background:var(--main)}
+section{display:none}
+section.active{display:block}
+.card{background:var(--card);border:1px solid #7f1d1d;border-radius:16px;padding:14px;margin-bottom:12px}
+input,select,textarea{width:100%;padding:12px;border:0;border-radius:12px;margin-top:8px;font-size:15px}
+.item{background:var(--soft);border-radius:14px;padding:12px;margin-top:10px;white-space:pre-wrap}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.total{font-size:24px;font-weight:bold}
+.red{background:#7f1d1d}.blue{background:var(--blue)}.green{background:var(--green)}.orange{background:var(--orange)}.yellow{background:var(--yellow);color:#111}
+.pill{display:inline-block;background:#7f1d1d;border-radius:99px;padding:4px 8px;font-size:12px;margin:2px}
+.ok{color:#86efac}.bad{color:#fca5a5}.warn{color:#fde68a}
+table{width:100%;border-collapse:collapse;margin-top:8px}
+td,th{padding:8px;border-bottom:1px solid #7f1d1d;text-align:left;font-size:13px}
+.bigmic{font-size:20px;padding:16px}
+@media(max-width:760px){
+.tabs{grid-template-columns:repeat(3,1fr);top:67px}
+.grid3{grid-template-columns:1fr}
+.grid{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 <body>
-<header><h1>ContablOS Fusion MAX</h1><div class="small">ERP · TPV voz · OCR · artículos · CNAE · países · monedas · bancos · CRM · KPI</div></header>
+
+<header>
+<h1>ContablOS MAX v2</h1>
+<div class="small">ERP completo + TPV por voz + OCR + artículos + CNAE + bancos + CRM + KPI</div>
+</header>
+
 <div class="wrap">
+
 <nav class="tabs">
-<button onclick="tab('dashboard',this)" class="active">Dashboard</button><button onclick="tab('ventas',this)">TPV Voz</button><button onclick="tab('articulos',this)">Artículos</button><button onclick="tab('clientes',this)">Clientes</button>
-<button onclick="tab('facturas',this)">Facturas</button><button onclick="tab('ocr',this)">OCR</button><button onclick="tab('asientos',this)">Asientos</button><button onclick="tab('impuestos',this)">Impuestos</button>
-<button onclick="tab('bancos',this)">Bancos</button><button onclick="tab('crm',this)">CRM</button><button onclick="tab('kpi',this)">KPI</button><button onclick="tab('informes',this)">Informes</button>
-<button onclick="tab('config',this)">Config</button><button onclick="tab('datos',this)">Datos</button>
+<button onclick="tab('dashboard',this)" class="active">Dashboard</button>
+<button onclick="tab('tpvvoz',this)">TPV Voz</button>
+<button onclick="tab('articulos',this)">Artículos</button>
+<button onclick="tab('clientes',this)">Clientes</button>
+<button onclick="tab('facturas',this)">Facturas</button>
+<button onclick="tab('ocr',this)">OCR</button>
+<button onclick="tab('asientos',this)">Asientos</button>
+<button onclick="tab('impuestos',this)">Impuestos</button>
+<button onclick="tab('bancos',this)">Bancos</button>
+<button onclick="tab('crm',this)">CRM</button>
+<button onclick="tab('kpi',this)">KPI</button>
+<button onclick="tab('informes',this)">Informes</button>
+<button onclick="tab('config',this)">Config</button>
+<button onclick="tab('datos',this)">Datos</button>
 </nav>
 
 <section id="dashboard" class="active">
-<div class="grid3"><div class="card"><div class="small">Ingresos</div><div class="total" id="d_ing">0 €</div></div><div class="card"><div class="small">Gastos</div><div class="total" id="d_gas">0 €</div></div><div class="card"><div class="small">Beneficio</div><div class="total" id="d_ben">0 €</div></div></div>
-<div class="grid"><div class="card"><div class="small">Repercutido</div><div class="total" id="d_rep">0 €</div></div><div class="card"><div class="small">Soportado</div><div class="total" id="d_sop">0 €</div></div></div>
-<div class="grid"><div class="card"><div class="small">Ventas TPV</div><div class="total" id="d_tpv">0 €</div></div><div class="card"><div class="small">Tesorería banco</div><div class="total" id="d_banco">0 €</div></div></div>
+<div class="grid3">
+<div class="card"><div class="small">Ingresos</div><div class="total" id="d_ing">0 €</div></div>
+<div class="card"><div class="small">Gastos</div><div class="total" id="d_gas">0 €</div></div>
+<div class="card"><div class="small">Beneficio</div><div class="total" id="d_ben">0 €</div></div>
+</div>
+<div class="grid">
+<div class="card"><div class="small">Ventas TPV Voz</div><div class="total" id="d_tpv">0 €</div></div>
+<div class="card"><div class="small">Tesorería banco</div><div class="total" id="d_banco">0 €</div></div>
+</div>
+<div class="grid">
+<div class="card"><div class="small">Impuesto repercutido</div><div class="total" id="d_rep">0 €</div></div>
+<div class="card"><div class="small">Impuesto soportado</div><div class="total" id="d_sop">0 €</div></div>
+</div>
 <div class="card"><div class="small">Liquidación estimada</div><div class="total" id="d_liq">0 €</div><div id="d_estado"></div></div>
 </section>
 
-<section id="ventas"><div class="card"><h2>TPV por voz</h2><input id="v_cliente" placeholder="Cliente"><button class="blue" onclick="escucharVenta()">🎤 Hablar venta</button><div id="v_estado" class="small">Ej: “vende dos cafés a Juan” / “cambia precio café solo a 1,50”</div><h3>Artículos</h3><input id="v_buscar" placeholder="Buscar artículo" oninput="pintar()"><select id="v_familia" onchange="pintar()"></select><div id="v_lista_articulos"></div><h3>Carrito</h3><div id="v_carrito"></div><div class="total" id="v_total">0 €</div><button class="green" onclick="finalizarVenta()">Finalizar venta</button><button class="red" onclick="vaciarCarrito()">Vaciar carrito</button></div></section>
-
-<section id="articulos"><div class="card"><h2>Repositorio de artículos</h2><input id="a_nombre" placeholder="Nombre artículo"><input id="a_precio" type="number" step="0.01" placeholder="Precio"><select id="a_familia"></select><button onclick="guardarArticulo()">Guardar artículo</button><button class="orange" onclick="cargarRepositorioInicial()">Cargar repositorio amplio</button></div><div class="card"><input id="a_buscar" placeholder="Buscar artículo" oninput="pintar()"><select id="a_filtrar_familia" onchange="pintar()"></select><div id="lista_articulos"></div></div><div class="card"><h2>Histórico de precios</h2><div id="lista_historico"></div></div></section>
-
-<section id="clientes"><div class="card"><h2>Clientes / Proveedores</h2><input id="c_nombre" placeholder="Nombre fiscal"><input id="c_nif" placeholder="NIF/CIF/NIE"><input id="c_email" placeholder="Email"><input id="c_tel" placeholder="Teléfono"><input id="c_dir" placeholder="Dirección"><select id="c_tipo"><option>Cliente</option><option>Proveedor</option><option>Banco</option><option>Administración</option><option>Empleado</option><option>Socio</option></select><button onclick="guardarContacto()">Guardar contacto</button></div><div class="card"><input id="buscar_contacto" placeholder="Buscar contacto" oninput="pintar()"><div id="lista_contactos"></div></div></section>
-
-<section id="facturas"><div class="card"><h2>Nueva factura</h2><input id="f_num" placeholder="Número factura"><input id="f_tercero" placeholder="Cliente / proveedor"><input id="f_concepto" placeholder="Concepto"><input id="f_base" type="number" step="0.01" placeholder="Base imponible"><select id="f_tipo"><option value="venta">Emitida / Venta</option><option value="compra">Recibida / Compra</option></select><select id="f_imp"><option value="0">0%</option><option value="3">IGIC 3%</option><option value="7">IGIC 7%</option><option value="10">IVA 10%</option><option value="21">IVA 21%</option></select><select id="f_estado"><option>Pendiente</option><option>Pagada</option><option>Cobrada</option><option>Vencida</option></select><button onclick="guardarFactura()">Guardar factura y asiento</button></div><div class="card"><input id="buscar_factura" placeholder="Buscar factura" oninput="pintar()"><div id="lista_facturas"></div></div></section>
-
-<section id="ocr"><div class="card"><h2>OCR factura con cámara</h2><input type="file" id="ocr_file" accept="image/*" capture="environment" onchange="procesarOCR()"><button class="blue" onclick="ocr_file.click()">Abrir cámara / subir imagen</button><div id="ocr_estado" class="small">Esperando imagen...</div><textarea id="ocr_texto" rows="12" placeholder="Texto reconocido"></textarea><div class="grid"><button onclick="crearFacturaOCR('compra')">Crear compra OCR</button><button class="orange" onclick="crearFacturaOCR('venta')">Crear venta OCR</button></div></div></section>
-
-<section id="asientos"><div class="card"><h2>Asiento manual</h2><input id="a_fecha" type="date"><input id="a_desc" placeholder="Descripción"><input id="a_cuenta" placeholder="Cuenta contable"><input id="a_debe" type="number" step="0.01" placeholder="Debe"><input id="a_haber" type="number" step="0.01" placeholder="Haber"><button onclick="guardarAsiento()">Guardar asiento</button></div><div class="card"><div id="lista_asientos"></div></div></section>
-<section id="impuestos"><div class="card"><h2>IVA / IGIC / Fiscal</h2><p>Repercutido: <b id="i_rep">0 €</b></p><p>Soportado: <b id="i_sop">0 €</b></p><p>Resultado: <b id="i_liq">0 €</b></p><div id="i_estado"></div></div></section>
-<section id="bancos"><div class="card"><h2>Bancos / Tesorería</h2><input id="b_banco" placeholder="Banco"><input id="b_concepto" placeholder="Concepto movimiento"><input id="b_importe" type="number" step="0.01" placeholder="Importe positivo/cobro o negativo/pago"><input id="b_fecha" type="date"><button onclick="guardarBanco()">Guardar movimiento bancario</button></div><div class="card"><div id="lista_bancos"></div></div></section>
-<section id="crm"><div class="card"><h2>CRM / Comunicaciones</h2><input id="m_para" placeholder="Para / cliente"><input id="m_asunto" placeholder="Asunto"><textarea id="m_texto" rows="5" placeholder="Mensaje"></textarea><button onclick="guardarMensaje()">Guardar comunicación</button></div><div class="card"><div id="lista_mensajes"></div></div></section>
-<section id="kpi"><div class="card"><h2>KPI avanzado</h2><div id="kpi_box"></div></div><div class="card"><h2>Puntos críticos</h2><div id="alertas_box"></div></div></section>
-<section id="informes"><div class="card"><h2>Informe ejecutivo</h2><button class="blue" onclick="generarInforme()">Generar informe</button><textarea id="informe_txt" rows="18"></textarea></div></section>
-
-<section id="config"><div class="card"><h2>Configuración inicial</h2><input id="cfg_empresa" placeholder="Empresa / titular"><input id="cfg_cif" placeholder="CIF/NIF/NIE"><input id="cfg_usuario" placeholder="Usuario"><select id="cfg_rol"><option>Administrador</option><option>Gerente</option><option>Contable interno</option><option>Asesor externo</option><option>Vendedor</option><option>Auditor</option><option>Solo lectura</option></select><select id="cfg_modo"><option>Interno</option><option>Externalizado</option><option>Asesoría</option><option>Cliente supervisado</option><option>Multiempresa</option><option>Auditoría</option></select><select id="cfg_tipo_entidad"><option>Persona física / individual</option><option>Autónomo empresario individual</option><option>Autónomo profesional</option><option>Comunidad de bienes</option><option>Sociedad civil</option><option>Sociedad limitada - S.L.</option><option>Sociedad limitada unipersonal - S.L.U.</option><option>Sociedad anónima - S.A.</option><option>Sociedad cooperativa</option><option>Grupo empresarial</option><option>Holding</option><option>Asesoría con cartera de clientes</option></select><select id="cfg_pais"></select><select id="cfg_region"></select><select id="cfg_moneda"></select><select id="cfg_territorio"><option>Canarias - IGIC</option><option>Península/Baleares - IVA</option><option>Ceuta - IPSI</option><option>Melilla - IPSI</option><option>Navarra - Régimen foral</option><option>País Vasco - Régimen foral</option><option>Unión Europea</option><option>Exportación / Internacional</option></select><input id="cfg_cnae_buscar" placeholder="Buscar CNAE" oninput="filtrarCNAE()"><select id="cfg_cnae"></select><input id="cfg_cnae_manual" placeholder="CNAE manual si no aparece"><button onclick="guardarConfig()">Guardar configuración</button><div id="config_box" class="item"></div></div></section>
-<section id="datos"><div class="card"><h2>Copias</h2><button class="blue" onclick="exportar()">Copiar JSON</button><button class="orange" onclick="descargarJSON()">Descargar JSON</button><textarea id="importar_txt" rows="8" placeholder="Pega JSON"></textarea><button onclick="importar()">Importar</button><button class="red" onclick="borrarTodo()">Borrar todo</button></div></section>
+<section id="tpvvoz">
+<div class="card">
+<h2>TPV por voz</h2>
+<div class="small">
+Comandos: “vende dos cafés a Juan”, “añade tres aguas”, “cambia precio café solo a 1,50”, “finalizar venta”, “vaciar carrito”.
 </div>
+<input id="v_cliente" placeholder="Cliente de la venta">
+<button class="blue bigmic" onclick="escucharVenta()">🎤 HABLAR VENTA</button>
+<div id="v_estado" class="item">Micrófono preparado.</div>
+</div>
+
+<div class="card">
+<h2>Buscar y vender artículo</h2>
+<select id="v_familia" onchange="pintar()"></select>
+<input id="v_buscar" placeholder="Buscar artículo" oninput="pintar()">
+<div id="v_lista_articulos"></div>
+</div>
+
+<div class="card">
+<h2>Carrito</h2>
+<div id="v_carrito"></div>
+<div class="total" id="v_total">0 €</div>
+<button class="green" onclick="finalizarVenta()">Finalizar venta</button>
+<button class="red" onclick="vaciarCarrito()">Vaciar carrito</button>
+</div>
+</section>
+
+<section id="articulos">
+<div class="card">
+<h2>Repositorio de artículos</h2>
+<input id="a_nombre" placeholder="Nombre artículo">
+<input id="a_precio" type="number" step="0.01" placeholder="Precio">
+<select id="a_familia"></select>
+<button onclick="guardarArticulo()">Guardar artículo</button>
+<button class="orange" onclick="cargarRepositorioInicial()">Cargar / reponer catálogo amplio</button>
+</div>
+
+<div class="card">
+<h2>Listado de artículos</h2>
+<input id="a_buscar" placeholder="Buscar artículo" oninput="pintar()">
+<select id="a_filtrar_familia" onchange="pintar()"></select>
+<div id="lista_articulos"></div>
+</div>
+
+<div class="card">
+<h2>Histórico de precios</h2>
+<div id="lista_historico"></div>
+</div>
+</section>
+
+<section id="clientes">
+<div class="card">
+<h2>Clientes / Proveedores</h2>
+<input id="c_nombre" placeholder="Nombre fiscal">
+<input id="c_nif" placeholder="NIF/CIF/NIE">
+<input id="c_email" placeholder="Email">
+<input id="c_tel" placeholder="Teléfono">
+<input id="c_dir" placeholder="Dirección">
+<select id="c_tipo">
+<option>Cliente</option><option>Proveedor</option><option>Banco</option><option>Administración</option><option>Empleado</option><option>Socio</option>
+</select>
+<button onclick="guardarContacto()">Guardar contacto</button>
+</div>
+<div class="card">
+<input id="buscar_contacto" placeholder="Buscar contacto" oninput="pintar()">
+<div id="lista_contactos"></div>
+</div>
+</section>
+
+<section id="facturas">
+<div class="card">
+<h2>Nueva factura</h2>
+<input id="f_num" placeholder="Número factura">
+<input id="f_tercero" placeholder="Cliente / proveedor">
+<input id="f_concepto" placeholder="Concepto">
+<input id="f_base" type="number" step="0.01" placeholder="Base imponible">
+<select id="f_tipo"><option value="venta">Emitida / Venta</option><option value="compra">Recibida / Compra</option></select>
+<select id="f_imp"><option value="0">0%</option><option value="3">IGIC 3%</option><option value="7">IGIC 7%</option><option value="10">IVA 10%</option><option value="21">IVA 21%</option></select>
+<select id="f_estado"><option>Pendiente</option><option>Pagada</option><option>Cobrada</option><option>Vencida</option></select>
+<button onclick="guardarFactura()">Guardar factura y asiento</button>
+</div>
+<div class="card">
+<input id="buscar_factura" placeholder="Buscar factura" oninput="pintar()">
+<div id="lista_facturas"></div>
+</div>
+</section>
+
+<section id="ocr">
+<div class="card">
+<h2>OCR factura con cámara</h2>
+<input type="file" id="ocr_file" accept="image/*" capture="environment" onchange="procesarOCR()">
+<button class="blue" onclick="ocr_file.click()">Abrir cámara / subir imagen</button>
+<div id="ocr_estado" class="small">Esperando imagen...</div>
+<textarea id="ocr_texto" rows="12" placeholder="Texto reconocido"></textarea>
+<div class="grid">
+<button onclick="crearFacturaOCR('compra')">Crear compra OCR</button>
+<button class="orange" onclick="crearFacturaOCR('venta')">Crear venta OCR</button>
+</div>
+</div>
+</section>
+
+<section id="asientos">
+<div class="card">
+<h2>Asiento manual</h2>
+<input id="a_fecha" type="date">
+<input id="a_desc" placeholder="Descripción">
+<input id="a_cuenta" placeholder="Cuenta contable">
+<input id="a_debe" type="number" step="0.01" placeholder="Debe">
+<input id="a_haber" type="number" step="0.01" placeholder="Haber">
+<button onclick="guardarAsiento()">Guardar asiento</button>
+</div>
+<div class="card"><div id="lista_asientos"></div></div>
+</section>
+
+<section id="impuestos">
+<div class="card">
+<h2>IVA / IGIC / Fiscal</h2>
+<p>Repercutido: <b id="i_rep">0 €</b></p>
+<p>Soportado: <b id="i_sop">0 €</b></p>
+<p>Resultado: <b id="i_liq">0 €</b></p>
+<div id="i_estado"></div>
+</div>
+</section>
+
+<section id="bancos">
+<div class="card">
+<h2>Bancos / Tesorería</h2>
+<input id="b_banco" placeholder="Banco">
+<input id="b_concepto" placeholder="Concepto movimiento">
+<input id="b_importe" type="number" step="0.01" placeholder="Importe positivo/cobro o negativo/pago">
+<input id="b_fecha" type="date">
+<button onclick="guardarBanco()">Guardar movimiento bancario</button>
+</div>
+<div class="card"><div id="lista_bancos"></div></div>
+</section>
+
+<section id="crm">
+<div class="card">
+<h2>CRM / Comunicaciones</h2>
+<input id="m_para" placeholder="Para / cliente">
+<input id="m_asunto" placeholder="Asunto">
+<textarea id="m_texto" rows="5" placeholder="Mensaje"></textarea>
+<button onclick="guardarMensaje()">Guardar comunicación</button>
+</div>
+<div class="card"><div id="lista_mensajes"></div></div>
+</section>
+
+<section id="kpi">
+<div class="card"><h2>KPI avanzado</h2><div id="kpi_box"></div></div>
+<div class="card"><h2>Puntos críticos</h2><div id="alertas_box"></div></div>
+</section>
+
+<section id="informes">
+<div class="card">
+<h2>Informe ejecutivo</h2>
+<button class="blue" onclick="generarInforme()">Generar informe</button>
+<textarea id="informe_txt" rows="18"></textarea>
+</div>
+</section>
+
+<section id="config">
+<div class="card">
+<h2>Configuración inicial</h2>
+<input id="cfg_empresa" placeholder="Empresa / titular">
+<input id="cfg_cif" placeholder="CIF/NIF/NIE">
+<input id="cfg_usuario" placeholder="Usuario">
+<select id="cfg_rol">
+<option>Administrador</option><option>Gerente</option><option>Contable interno</option><option>Asesor externo</option><option>Vendedor</option><option>Auditor</option><option>Solo lectura</option>
+</select>
+<select id="cfg_modo">
+<option>Interno</option><option>Externalizado</option><option>Asesoría</option><option>Cliente supervisado</option><option>Multiempresa</option><option>Auditoría</option>
+</select>
+<select id="cfg_tipo_entidad">
+<option>Persona física / individual</option><option>Autónomo empresario individual</option><option>Autónomo profesional</option><option>Comunidad de bienes</option><option>Sociedad civil</option><option>Sociedad limitada - S.L.</option><option>Sociedad limitada unipersonal - S.L.U.</option><option>Sociedad anónima - S.A.</option><option>Sociedad cooperativa</option><option>Grupo empresarial</option><option>Holding</option><option>Asesoría con cartera de clientes</option>
+</select>
+<select id="cfg_pais"></select>
+<select id="cfg_region"></select>
+<select id="cfg_moneda"></select>
+<select id="cfg_territorio">
+<option>Canarias - IGIC</option><option>Península/Baleares - IVA</option><option>Ceuta - IPSI</option><option>Melilla - IPSI</option><option>Navarra - Régimen foral</option><option>País Vasco - Régimen foral</option><option>Unión Europea</option><option>Exportación / Internacional</option>
+</select>
+<input id="cfg_cnae_buscar" placeholder="Buscar CNAE" oninput="filtrarCNAE()">
+<select id="cfg_cnae"></select>
+<input id="cfg_cnae_manual" placeholder="CNAE manual si no aparece">
+<button onclick="guardarConfig()">Guardar configuración</button>
+<div id="config_box" class="item"></div>
+</div>
+</section>
+
+<section id="datos">
+<div class="card">
+<h2>Copias</h2>
+<button class="blue" onclick="exportar()">Copiar JSON</button>
+<button class="orange" onclick="descargarJSON()">Descargar JSON</button>
+<textarea id="importar_txt" rows="8" placeholder="Pega JSON"></textarea>
+<button onclick="importar()">Importar</button>
+<button class="red" onclick="borrarTodo()">Borrar todo</button>
+</div>
+</section>
+
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+
 <script>
-const FAMILIAS=["Sin familia","Cafetería","Bebidas","Restaurante","Panadería","Pastelería","Alimentación","Supermercado","Limpieza","Ferretería","Electricidad","Informática","Oficina","Servicios","Turismo","Energía","Telefonía","Construcción","Transporte","Textil","Salud","Belleza","Hogar","Automoción","Agricultura","Otros"];
+const FAMILIAS=[
+"Sin familia","Cafetería","Bebidas","Restaurante","Panadería","Pastelería","Alimentación","Supermercado","Limpieza","Ferretería","Electricidad","Informática","Oficina","Servicios","Turismo","Energía","Telefonía","Construcción","Transporte","Textil","Salud","Belleza","Hogar","Automoción","Agricultura","Otros"
+];
+
 const PAISES=["España","Portugal","Francia","Italia","Alemania","Países Bajos","Bélgica","Irlanda","Luxemburgo","Austria","Polonia","Rumanía","Bulgaria","Grecia","Chipre","Malta","Suecia","Dinamarca","Finlandia","Estonia","Letonia","Lituania","República Checa","Eslovaquia","Eslovenia","Hungría","Croacia","Reino Unido","Suiza","Noruega","Islandia","Estados Unidos","Canadá","México","Brasil","Argentina","Chile","Colombia","Perú","Uruguay","Marruecos","China","Japón","India","Emiratos Árabes Unidos","Australia","Otro"];
 const REGIONES=["Andalucía","Aragón","Asturias","Baleares","Canarias","Cantabria","Castilla-La Mancha","Castilla y León","Cataluña","Comunidad Valenciana","Extremadura","Galicia","Madrid","Murcia","Navarra","País Vasco","La Rioja","Ceuta","Melilla","Otra"];
 const MONEDAS=["EUR - Euro","USD - Dólar estadounidense","GBP - Libra esterlina","CHF - Franco suizo","JPY - Yen japonés","CNY - Yuan chino","CAD - Dólar canadiense","AUD - Dólar australiano","MXN - Peso mexicano","BRL - Real brasileño","ARS - Peso argentino","CLP - Peso chileno","COP - Peso colombiano","PEN - Sol peruano","MAD - Dirham marroquí","AED - Dirham EAU","TRY - Lira turca"];
+
 const CNAES=[
 ["0111","Cultivo de cereales"],["0113","Cultivo de hortalizas"],["0121","Cultivo de la vid"],["0146","Explotación de ganado porcino"],["0147","Avicultura"],["0311","Pesca marina"],["1011","Procesado de carne"],["1021","Procesado de pescado"],["1071","Fabricación de pan"],["1085","Elaboración de platos preparados"],["1102","Elaboración de vinos"],["1105","Fabricación de cerveza"],["1812","Impresión"],["2512","Carpintería metálica"],["3514","Comercio de energía eléctrica"],["3519","Producción de energía eléctrica"],["3600","Distribución de agua"],["3811","Recogida de residuos no peligrosos"],["4110","Promoción inmobiliaria"],["4121","Construcción residencial"],["4321","Instalaciones eléctricas"],["4322","Fontanería y climatización"],["4332","Instalación de carpintería"],["4399","Construcción especializada"],["4511","Venta de automóviles"],["4520","Reparación de vehículos"],["4619","Intermediarios comercio diverso"],["4639","Comercio mayor alimentación"],["4690","Comercio mayor no especializado"],["4711","Comercio menor alimentación"],["4719","Comercio menor no especializado"],["4724","Comercio menor panadería"],["4730","Combustible automoción"],["4752","Ferretería y pintura"],["4771","Comercio menor ropa"],["4773","Farmacias"],["4791","Comercio Internet"],["4932","Taxi"],["4941","Transporte mercancías carretera"],["5510","Hoteles"],["5520","Alojamientos turísticos"],["5610","Restaurantes"],["5621","Catering eventos"],["5630","Bares"],["5811","Edición libros"],["5912","Postproducción vídeo"],["6110","Telecomunicaciones cable"],["6201","Programación informática"],["6202","Consultoría informática"],["6311","Hosting y proceso datos"],["6312","Portales web"],["6420","Sociedades holding"],["6810","Compraventa inmobiliaria"],["6820","Alquiler inmuebles"],["6831","Agentes inmobiliarios"],["6832","Gestión inmobiliaria"],["6910","Actividades jurídicas"],["6920","Contabilidad, auditoría y asesoría fiscal"],["7010","Sedes centrales"],["7021","Comunicación"],["7022","Consultoría gestión empresarial"],["7111","Arquitectura"],["7112","Ingeniería"],["7311","Publicidad"],["7410","Diseño"],["7420","Fotografía"],["7430","Traducción"],["7490","Otras actividades profesionales"],["7711","Alquiler vehículos"],["7911","Agencias de viajes"],["7912","Operadores turísticos"],["7990","Reservas"],["8010","Seguridad privada"],["8110","Servicios integrales edificios"],["8121","Limpieza edificios"],["8129","Otras limpiezas"],["8130","Jardinería"],["8211","Servicios administrativos"],["8220","Call centers"],["8230","Ferias y congresos"],["8299","Apoyo a empresas"],["8559","Otra educación"],["8621","Medicina general"],["8623","Odontología"],["8690","Otras sanitarias"],["9001","Artes escénicas"],["9003","Creación artística"],["9313","Gimnasios"],["9329","Ocio"],["9511","Reparación ordenadores"],["9602","Peluquería y belleza"],["9609","Otros servicios personales"]
 ];
+
 const REPOSITORIO=[
-["Cafetería","Café solo",1.20],["Cafetería","Cortado",1.30],["Cafetería","Café con leche",1.60],["Cafetería","Capuchino",2.20],["Cafetería","Chocolate caliente",2.50],["Cafetería","Té",1.50],["Cafetería","Infusión",1.50],
-["Bebidas","Agua 0,5L",1.00],["Bebidas","Agua 1,5L",1.80],["Bebidas","Refresco lata",1.80],["Bebidas","Zumo natural",3.00],["Bebidas","Cerveza sin alcohol",2.20],["Bebidas","Batido",2.50],["Bebidas","Energética",2.80],
-["Restaurante","Menú del día",12.00],["Restaurante","Bocadillo",4.50],["Restaurante","Hamburguesa",8.50],["Restaurante","Pizza",9.50],["Restaurante","Ensalada",7.00],["Restaurante","Plato combinado",10.00],["Restaurante","Ración",6.50],
-["Panadería","Pan pequeño",0.80],["Panadería","Barra de pan",1.10],["Panadería","Pan integral",1.60],["Panadería","Croissant",1.50],["Panadería","Empanada",2.80],["Panadería","Bollo",1.20],
-["Pastelería","Tarta porción",3.50],["Pastelería","Palmera",1.80],["Pastelería","Donut",1.40],["Pastelería","Magdalena",1.20],["Pastelería","Caja pasteles",12.00],
-["Alimentación","Leche",1.20],["Alimentación","Huevos docena",3.20],["Alimentación","Arroz",1.50],["Alimentación","Pasta",1.40],["Alimentación","Aceite oliva",8.00],["Alimentación","Azúcar",1.30],["Alimentación","Sal",0.90],
-["Limpieza","Lejía",1.40],["Limpieza","Detergente",5.50],["Limpieza","Fregasuelos",2.20],["Limpieza","Papel higiénico",4.00],["Limpieza","Guantes",2.50],["Limpieza","Bayeta",1.20],
-["Ferretería","Tornillos caja",3.00],["Ferretería","Cinta aislante",1.50],["Ferretería","Candado",5.00],["Ferretería","Martillo",9.00],["Ferretería","Taladro",49.00],["Ferretería","Destornillador",4.50],
-["Electricidad","Bombilla LED",3.50],["Electricidad","Cable metro",1.20],["Electricidad","Regleta",8.00],["Electricidad","Interruptor",4.00],["Electricidad","Enchufe",3.00],["Electricidad","Diferencial",28.00],
-["Informática","Ratón",9.90],["Informática","Teclado",14.90],["Informática","Cable USB",4.00],["Informática","Memoria USB",8.00],["Informática","Servicio técnico hora",35.00],["Informática","Portátil básico",399.00],
-["Oficina","Bolígrafo",0.50],["Oficina","Cuaderno",2.00],["Oficina","Resma papel",5.50],["Oficina","Carpeta",1.20],["Oficina","Tóner",35.00],["Oficina","Grapadora",6.00],
-["Servicios","Hora asesoría",45.00],["Servicios","Consulta contable",30.00],["Servicios","Alta cliente",60.00],["Servicios","Gestión factura",10.00],["Servicios","Mantenimiento mensual",90.00],["Servicios","Soporte remoto",25.00],
-["Turismo","Excursión básica",35.00],["Turismo","Excursión premium",65.00],["Turismo","Paseo barco",50.00],["Turismo","Reserva hotel",20.00],["Turismo","Pack turístico",120.00],
-["Energía","Gestión contrato luz",25.00],["Energía","Cambio titular",15.00],["Energía","Estudio tarifa",30.00],["Energía","Alta suministro",60.00],["Energía","Servicio energético mensual",12.00],
+["Cafetería","Café solo",1.20],["Cafetería","Cortado",1.30],["Cafetería","Café con leche",1.60],["Cafetería","Capuchino",2.20],["Cafetería","Chocolate caliente",2.50],["Cafetería","Té",1.50],["Cafetería","Infusión",1.50],["Cafetería","Café americano",1.70],["Cafetería","Latte",2.10],["Cafetería","Carajillo",2.00],
+["Bebidas","Agua 0,5L",1.00],["Bebidas","Agua 1,5L",1.80],["Bebidas","Refresco lata",1.80],["Bebidas","Zumo natural",3.00],["Bebidas","Cerveza sin alcohol",2.20],["Bebidas","Batido",2.50],["Bebidas","Energética",2.80],["Bebidas","Tónica",2.00],["Bebidas","Nestea",2.00],["Bebidas","Aquarius",2.00],
+["Restaurante","Menú del día",12.00],["Restaurante","Bocadillo",4.50],["Restaurante","Hamburguesa",8.50],["Restaurante","Pizza",9.50],["Restaurante","Ensalada",7.00],["Restaurante","Plato combinado",10.00],["Restaurante","Ración",6.50],["Restaurante","Tapa",3.50],["Restaurante","Sopa",4.00],["Restaurante","Postre",3.00],
+["Panadería","Pan pequeño",0.80],["Panadería","Barra de pan",1.10],["Panadería","Pan integral",1.60],["Panadería","Croissant",1.50],["Panadería","Empanada",2.80],["Panadería","Bollo",1.20],["Panadería","Pan de molde",2.20],["Panadería","Rosca",1.80],
+["Pastelería","Tarta porción",3.50],["Pastelería","Palmera",1.80],["Pastelería","Donut",1.40],["Pastelería","Magdalena",1.20],["Pastelería","Caja pasteles",12.00],["Pastelería","Milhojas",2.20],["Pastelería","Brownie",2.50],
+["Alimentación","Leche",1.20],["Alimentación","Huevos docena",3.20],["Alimentación","Arroz",1.50],["Alimentación","Pasta",1.40],["Alimentación","Aceite oliva",8.00],["Alimentación","Azúcar",1.30],["Alimentación","Sal",0.90],["Alimentación","Atún lata",1.70],["Alimentación","Queso",3.50],["Alimentación","Jamón",4.20],
+["Limpieza","Lejía",1.40],["Limpieza","Detergente",5.50],["Limpieza","Fregasuelos",2.20],["Limpieza","Papel higiénico",4.00],["Limpieza","Guantes",2.50],["Limpieza","Bayeta",1.20],["Limpieza","Desinfectante",3.00],["Limpieza","Lavavajillas",2.40],
+["Ferretería","Tornillos caja",3.00],["Ferretería","Cinta aislante",1.50],["Ferretería","Candado",5.00],["Ferretería","Martillo",9.00],["Ferretería","Taladro",49.00],["Ferretería","Destornillador",4.50],["Ferretería","Llave inglesa",8.00],
+["Electricidad","Bombilla LED",3.50],["Electricidad","Cable metro",1.20],["Electricidad","Regleta",8.00],["Electricidad","Interruptor",4.00],["Electricidad","Enchufe",3.00],["Electricidad","Diferencial",28.00],["Electricidad","Magnetotérmico",12.00],
+["Informática","Ratón",9.90],["Informática","Teclado",14.90],["Informática","Cable USB",4.00],["Informática","Memoria USB",8.00],["Informática","Servicio técnico hora",35.00],["Informática","Portátil básico",399.00],["Informática","Monitor",120.00],
+["Oficina","Bolígrafo",0.50],["Oficina","Cuaderno",2.00],["Oficina","Resma papel",5.50],["Oficina","Carpeta",1.20],["Oficina","Tóner",35.00],["Oficina","Grapadora",6.00],["Oficina","Archivador",4.00],
+["Servicios","Hora asesoría",45.00],["Servicios","Consulta contable",30.00],["Servicios","Alta cliente",60.00],["Servicios","Gestión factura",10.00],["Servicios","Mantenimiento mensual",90.00],["Servicios","Soporte remoto",25.00],["Servicios","Auditoría interna",150.00],
+["Turismo","Excursión básica",35.00],["Turismo","Excursión premium",65.00],["Turismo","Paseo barco",50.00],["Turismo","Reserva hotel",20.00],["Turismo","Pack turístico",120.00],["Turismo","Transfer aeropuerto",35.00],
+["Energía","Gestión contrato luz",25.00],["Energía","Cambio titular",15.00],["Energía","Estudio tarifa",30.00],["Energía","Alta suministro",60.00],["Energía","Servicio energético mensual",12.00],["Energía","Optimización potencia",45.00],
 ["Telefonía","SIM",5.00],["Telefonía","Recarga",10.00],["Telefonía","Router",49.00],["Telefonía","Instalación fibra",30.00],["Telefonía","Plan mensual",29.90],
 ["Construcción","Saco cemento",6.50],["Construcción","Bloque",1.20],["Construcción","Arena saco",3.50],["Construcción","Pintura cubo",22.00],["Construcción","Mano obra hora",25.00],
 ["Transporte","Envío local",5.00],["Transporte","Envío provincial",9.00],["Transporte","Mudanza hora",35.00],["Transporte","Taxi servicio",12.00],["Transporte","Reparto mensual",120.00],
 ["Textil","Camiseta",9.00],["Textil","Pantalón",19.00],["Textil","Gorra",7.00],["Textil","Uniforme",35.00],["Textil","Zapatos",29.00],
-["Salud","Mascarilla",0.50],["Salud","Gel hidroalcohólico",2.50],["Salud","Consulta básica",40.00],["Belleza","Corte pelo",12.00],["Belleza","Manicura",15.00],["Hogar","Silla",25.00],["Hogar","Mesa",60.00],["Automoción","Lavado coche",8.00],["Automoción","Cambio aceite",45.00],["Agricultura","Saco abono",12.00],["Agricultura","Planta ornamental",4.50],["Sin familia","Artículo libre",1.00],["Sin familia","Producto genérico",5.00],["Sin familia","Servicio genérico",10.00]
+["Salud","Mascarilla",0.50],["Salud","Gel hidroalcohólico",2.50],["Salud","Consulta básica",40.00],
+["Belleza","Corte pelo",12.00],["Belleza","Manicura",15.00],["Belleza","Tinte",35.00],
+["Hogar","Silla",25.00],["Hogar","Mesa",60.00],["Hogar","Lámpara",18.00],
+["Automoción","Lavado coche",8.00],["Automoción","Cambio aceite",45.00],["Automoción","Revisión básica",60.00],
+["Agricultura","Saco abono",12.00],["Agricultura","Planta ornamental",4.50],["Agricultura","Herramienta jardín",9.00],
+["Sin familia","Artículo libre",1.00],["Sin familia","Producto genérico",5.00],["Sin familia","Servicio genérico",10.00]
 ];
 
-let db=JSON.parse(localStorage.getItem("contablos_fusion_max"))||{config:{empresa:"Comercializadora Eléctrica de Tenerife S.L.",pais:"España",region:"Canarias",moneda:"EUR - Euro",territorio:"Canarias - IGIC",rol:"Administrador"},contactos:[],articulos:[],carrito:[],facturas:[],asientos:[],bancos:[],mensajes:[],historico:[]};
-function save(){localStorage.setItem("contablos_fusion_max",JSON.stringify(db));pintar()}function eur(n){return(Number(n)||0).toFixed(2)+" €"}function hoy(){return new Date().toLocaleString()}function normal(t){return(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
-function tab(id,btn){document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));if(btn)btn.classList.add("active")}
-function tabById(id){let b=[...document.querySelectorAll(".tabs button")].find(x=>x.getAttribute("onclick").includes(id));tab(id,b)}
-function cargarSelectores(){let fam=FAMILIAS.map(f=>`<option>${f}</option>`).join("");a_familia.innerHTML=fam;a_filtrar_familia.innerHTML="<option>Todas</option>"+fam;v_familia.innerHTML="<option>Todas</option>"+fam;cfg_pais.innerHTML=PAISES.map(x=>`<option>${x}</option>`).join("");cfg_region.innerHTML=REGIONES.map(x=>`<option>${x}</option>`).join("");cfg_moneda.innerHTML=MONEDAS.map(x=>`<option>${x}</option>`).join("");filtrarCNAE();cfg_empresa.value=db.config.empresa||"";cfg_cif.value=db.config.cif||"";cfg_usuario.value=db.config.usuario||"";cfg_rol.value=db.config.rol||"Administrador";cfg_modo.value=db.config.modo||"Interno";cfg_tipo_entidad.value=db.config.tipo_entidad||"Sociedad limitada - S.L.";cfg_pais.value=db.config.pais||"España";cfg_region.value=db.config.region||"Canarias";cfg_moneda.value=db.config.moneda||"EUR - Euro";cfg_territorio.value=db.config.territorio||"Canarias - IGIC"}
-function filtrarCNAE(){let q=normal(cfg_cnae_buscar?.value||"");let lista=CNAES.filter(x=>normal(x[0]+" "+x[1]).includes(q)).slice(0,300);cfg_cnae.innerHTML=lista.map(x=>`<option value="${x[0]} - ${x[1]}">${x[0]} - ${x[1]}</option>`).join("")}
-function cargarRepositorioInicial(){let ex=db.articulos.map(a=>normal(a.nombre));REPOSITORIO.forEach(x=>{if(!ex.includes(normal(x[1])))db.articulos.push({familia:x[0],nombre:x[1],precio:x[2],activo:true})});save();alert("Repositorio cargado: "+REPOSITORIO.length+" artículos")}
-function guardarArticulo(){if(!a_nombre.value||!a_precio.value)return alert("Falta nombre o precio");db.articulos.push({familia:a_familia.value,nombre:a_nombre.value,precio:+a_precio.value,activo:true});a_nombre.value="";a_precio.value="";save()}
-function cambiarPrecioArticulo(nombre,nuevoPrecio,origen){let art=db.articulos.find(a=>normal(a.nombre)===normal(nombre));if(!art||!nuevoPrecio)return false;db.historico.push({articulo:art.nombre,familia:art.familia,precio_anterior:art.precio,precio_nuevo:nuevoPrecio,origen:origen||"manual",fecha:hoy()});art.precio=nuevoPrecio;save();return true}
-function guardarContacto(){if(!c_nombre.value)return alert("Falta nombre");db.contactos.push({nombre:c_nombre.value,nif:c_nif.value,email:c_email.value,tel:c_tel.value,dir:c_dir.value,tipo:c_tipo.value,fecha:hoy()});c_nombre.value=c_nif.value=c_email.value=c_tel.value=c_dir.value="";save()}
-function guardarFactura(){let base=parseFloat(f_base.value);if(!f_num.value||!f_concepto.value||isNaN(base))return alert("Faltan datos");let imp=+f_imp.value,cuota=base*imp/100,total=base+cuota,tipo=f_tipo.value;db.facturas.push({num:f_num.value,tercero:f_tercero.value,concepto:f_concepto.value,base,imp,cuota,total,tipo,estado:f_estado.value,fecha:hoy(),origen:"manual"});db.asientos.push({fecha:hoy(),desc:"Factura "+tipo+" "+f_num.value+" "+f_concepto.value,cuenta:tipo==="venta"?"430/700/477":"600/472/400",debe:total,haber:total});f_num.value=f_tercero.value=f_concepto.value=f_base.value="";save()}
-function guardarAsiento(){if(!a_desc.value)return alert("Falta descripción");db.asientos.push({fecha:a_fecha.value||hoy(),desc:a_desc.value,cuenta:a_cuenta.value,debe:+a_debe.value||0,haber:+a_haber.value||0});a_fecha.value=a_desc.value=a_cuenta.value=a_debe.value=a_haber.value="";save()}
-function guardarBanco(){if(!b_concepto.value)return alert("Falta concepto");db.bancos.push({banco:b_banco.value,concepto:b_concepto.value,importe:+b_importe.value||0,fecha:b_fecha.value||hoy()});b_banco.value=b_concepto.value=b_importe.value=b_fecha.value="";save()}
-function guardarMensaje(){if(!m_texto.value)return alert("Falta mensaje");db.mensajes.push({para:m_para.value,asunto:m_asunto.value,texto:m_texto.value,fecha:hoy()});m_para.value=m_asunto.value=m_texto.value="";save()}
-function guardarConfig(){db.config={empresa:cfg_empresa.value,cif:cfg_cif.value,usuario:cfg_usuario.value,rol:cfg_rol.value,modo:cfg_modo.value,tipo_entidad:cfg_tipo_entidad.value,pais:cfg_pais.value,region:cfg_region.value,moneda:cfg_moneda.value,territorio:cfg_territorio.value,cnae:cfg_cnae_manual.value||cfg_cnae.value};save()}
-function addCarrito(nombre,precio,cantidad){db.carrito.push({nombre,precio,cantidad,total:precio*cantidad});save()}function vaciarCarrito(){db.carrito=[];save()}
-function numeroVoz(t){let mapa={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,once:11,doce:12};let n=t.match(/\d+/);if(n)return +n[0];for(let k in mapa){if(normal(t).includes(k))return mapa[k]}return 1}
-function precioVoz(t){let m=t.match(/(\d+)[,.](\d{1,2})/);if(m)return +(m[1]+"."+m[2]);let n=t.match(/\d+/);return n?+n[0]:null}
-function escucharVenta(){let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return alert("Usa Chrome Android para reconocimiento de voz");let rec=new SR();rec.lang="es-ES";rec.interimResults=false;rec.maxAlternatives=1;v_estado.innerText="Escuchando...";rec.onresult=e=>{let texto=e.results[0][0].transcript;v_estado.innerText="Reconocido: "+texto;procesarVoz(texto)};rec.onerror=()=>v_estado.innerText="Error de micrófono";rec.start()}
-function procesarVoz(texto){let t=normal(texto);if(t.includes("cambia precio")||t.includes("cambiar precio")||t.includes("precio")){let nuevo=precioVoz(t);let art=db.articulos.find(a=>t.includes(normal(a.nombre)));if(art&&nuevo!==null){cambiarPrecioArticulo(art.nombre,nuevo,"voz: "+texto);alert("Precio cambiado: "+art.nombre+" → "+eur(nuevo));return}alert("No encontré artículo o precio");return}let cliente=db.contactos.find(c=>t.includes(normal(c.nombre)));if(cliente)v_cliente.value=cliente.nombre;let art=db.articulos.find(a=>t.includes(normal(a.nombre)));if(!art)return alert("No encuentro el artículo");let cant=numeroVoz(t);addCarrito(art.nombre,art.precio,cant);alert("Añadido: "+cant+" x "+art.nombre)}
-function finalizarVenta(){if(!db.carrito.length)return alert("Carrito vacío");let total=db.carrito.reduce((s,x)=>s+x.total,0),cliente=v_cliente.value||"Cliente contado",concepto=db.carrito.map(x=>x.cantidad+" x "+x.nombre).join(", ");db.facturas.push({num:"TPV-"+Date.now(),tercero:cliente,concepto,base:total,imp:0,cuota:0,total,tipo:"venta",estado:"Cobrada",fecha:hoy(),origen:"TPV Voz",lineas:[...db.carrito]});db.asientos.push({fecha:hoy(),desc:"Venta TPV "+cliente+" "+concepto,cuenta:"570/700",debe:total,haber:total});db.carrito=[];save();alert("Venta finalizada")}
-async function procesarOCR(){let file=ocr_file.files[0];if(!file)return;ocr_estado.innerText="Reconociendo...";try{let res=await Tesseract.recognize(file,"spa",{logger:m=>{if(m.status)ocr_estado.innerText=m.status+" "+Math.round((m.progress||0)*100)+"%"}});ocr_texto.value=res.data.text;ocr_estado.innerText="OCR completado"}catch(e){ocr_estado.innerText="Error OCR"}}
-function crearFacturaOCR(tipo){let t=ocr_texto.value;if(!t.trim())return alert("No hay texto OCR");let nums=t.match(/\d+[,.]\d{2}/g)||[],total=nums.length?nums[nums.length-1].replace(",","."):"",lines=t.split("\n").filter(x=>x.trim().length>2);f_num.value="OCR-"+Date.now();f_tercero.value=(lines[0]||"Proveedor OCR").substring(0,50);f_concepto.value=t.substring(0,90);f_base.value=total;f_tipo.value=tipo;tabById("facturas")}
-function resumen(){let ing=0,gas=0,rep=0,sop=0,tpv=0;db.facturas.forEach(f=>{if(f.tipo==="venta"){ing+=f.total;rep+=f.cuota;if(f.origen&&f.origen.includes("TPV"))tpv+=f.total}else{gas+=f.total;sop+=f.cuota}});let bancos=db.bancos.reduce((a,b)=>a+(+b.importe||0),0);return{ing,gas,rep,sop,ben:ing-gas,liq:rep-sop,bancos,tpv}}
-function del(arr,i){db[arr].splice(i,1);save()}
-function pintar(){let r=resumen();d_ing.innerText=eur(r.ing);d_gas.innerText=eur(r.gas);d_ben.innerText=eur(r.ben);d_rep.innerText=eur(r.rep);d_sop.innerText=eur(r.sop);d_liq.innerText=eur(r.liq);d_tpv.innerText=eur(r.tpv);d_banco.innerText=eur(r.bancos);d_estado.innerHTML=r.liq>0?'<span class="warn">A pagar</span>':'<span class="ok">A compensar/devolver</span>';i_rep.innerText=eur(r.rep);i_sop.innerText=eur(r.sop);i_liq.innerText=eur(r.liq);i_estado.innerHTML=d_estado.innerHTML;
-let qa=normal(a_buscar?.value||""),fa=a_filtrar_familia?.value||"Todas";lista_articulos.innerHTML=db.articulos.filter(a=>(fa==="Todas"||a.familia===fa)&&normal(a.nombre+" "+a.familia).includes(qa)).map((a,i)=>`<div class="item"><b>${a.nombre}</b> <span class="pill">${a.familia}</span><br>Precio: <b>${eur(a.precio)}</b><input id="precio_${i}" type="number" step="0.01" placeholder="Nuevo precio"><button onclick="cambiarPrecioArticulo('${a.nombre.replaceAll("'","")} ',+document.getElementById('precio_${i}').value,'manual')">Cambiar precio</button></div>`).join("")||"Sin artículos";
-let qv=normal(v_buscar?.value||""),fv=v_familia?.value||"Todas";v_lista_articulos.innerHTML=db.articulos.filter(a=>(fv==="Todas"||a.familia===fv)&&normal(a.nombre+" "+a.familia).includes(qv)).slice(0,100).map(a=>`<div class="item"><b>${a.nombre}</b> <span class="pill">${a.familia}</span><br>${eur(a.precio)}<button onclick="addCarrito('${a.nombre.replaceAll("'","")}',${a.precio},1)">Añadir</button></div>`).join("")||"Sin artículos";
-v_carrito.innerHTML=db.carrito.map((x,i)=>`<div class="item">${x.cantidad} x <b>${x.nombre}</b><br>${eur(x.precio)} unidad · <b>${eur(x.total)}</b><button class="red" onclick="db.carrito.splice(${i},1);save()">Eliminar</button></div>`).join("")||"Carrito vacío";v_total.innerText=eur(db.carrito.reduce((s,x)=>s+x.total,0));
-let bc=normal(buscar_contacto?.value||"");lista_contactos.innerHTML=db.contactos.filter(c=>normal(JSON.stringify(c)).includes(bc)).map((c,i)=>`<div class="item"><b>${c.nombre}</b> <span class="pill">${c.tipo}</span><br>${c.nif||""}<br>${c.email||""}<br>${c.tel||""}<br>${c.dir||""}<button onclick="v_cliente.value='${c.nombre.replaceAll("'","")}'">Usar en venta</button><button class="red" onclick="del('contactos',${i})">Eliminar</button></div>`).join("")||"Sin contactos";
-let bf=normal(buscar_factura?.value||"");lista_facturas.innerHTML=db.facturas.filter(f=>normal(JSON.stringify(f)).includes(bf)).map((f,i)=>`<div class="item"><b>${f.num}</b> <span class="pill">${f.tipo}</span> <span class="pill">${f.estado}</span><br>${f.fecha} · ${f.tercero||""}<br>${f.concepto}<br>Base ${eur(f.base)} · Imp ${f.imp}% ${eur(f.cuota)}<br><b>Total ${eur(f.total)}</b><button class="red" onclick="del('facturas',${i})">Eliminar</button></div>`).join("")||"Sin facturas";
-lista_asientos.innerHTML=db.asientos.map((a,i)=>`<div class="item"><b>${a.fecha}</b> ${a.cuenta||""}<br>${a.desc}<br>Debe ${eur(a.debe)} · Haber ${eur(a.haber)}<button class="red" onclick="del('asientos',${i})">Eliminar</button></div>`).join("")||"Sin asientos";
-lista_bancos.innerHTML=db.bancos.map((b,i)=>`<div class="item"><b>${b.fecha}</b> ${b.banco||""}<br>${b.concepto}<br><b>${eur(b.importe)}</b><button class="red" onclick="del('bancos',${i})">Eliminar</button></div>`).join("")||"Sin movimientos";
-lista_mensajes.innerHTML=db.mensajes.map((m,i)=>`<div class="item"><b>${m.asunto||"Sin asunto"}</b><br>${m.fecha} · ${m.para||""}<br>${m.texto}<button class="red" onclick="del('mensajes',${i})">Eliminar</button></div>`).join("")||"Sin mensajes";
-lista_historico.innerHTML=db.historico.slice().reverse().map(h=>`<div class="item"><b>${h.articulo}</b> <span class="pill">${h.familia}</span><br>Antes: ${eur(h.precio_anterior)} → Nuevo: <b>${eur(h.precio_nuevo)}</b><br>${h.fecha}<br>${h.origen}</div>`).join("")||"Sin cambios";
-config_box.innerHTML=`Empresa: <b>${db.config.empresa||""}</b><br>CIF: ${db.config.cif||""}<br>Usuario: ${db.config.usuario||""}<br>Rol: ${db.config.rol||""}<br>Modo: ${db.config.modo||""}<br>Entidad: ${db.config.tipo_entidad||""}<br>País: ${db.config.pais||""}<br>Región: ${db.config.region||""}<br>Moneda: ${db.config.moneda||""}<br>Fiscalidad: ${db.config.territorio||""}<br>CNAE: ${db.config.cnae||""}`;
-kpi_box.innerHTML=`<table><tr><th>KPI</th><th>Valor</th></tr><tr><td>Margen</td><td>${r.ing?((r.ben/r.ing)*100).toFixed(2):0}%</td></tr><tr><td>Facturas</td><td>${db.facturas.length}</td></tr><tr><td>Artículos</td><td>${db.articulos.length}</td></tr><tr><td>Contactos</td><td>${db.contactos.length}</td></tr><tr><td>Tesorería</td><td>${eur(r.bancos)}</td></tr></table>`;let alerts=[];if(r.ben<0)alerts.push("Beneficio negativo");if(r.liq>0)alerts.push("Liquidación fiscal a pagar");if(!db.articulos.length)alerts.push("Repositorio de artículos vacío");alertas_box.innerHTML=alerts.map(a=>`<div class="item bad">${a}</div>`).join("")||'<div class="item ok">Sin alertas críticas</div>'}
-function generarInforme(){let r=resumen();informe_txt.value=`INFORME CONTABLOS FUSION MAX\nEmpresa: ${db.config.empresa||""}\nFecha: ${new Date().toLocaleString()}\n\nIngresos: ${eur(r.ing)}\nGastos: ${eur(r.gas)}\nBeneficio: ${eur(r.ben)}\nRepercutido: ${eur(r.rep)}\nSoportado: ${eur(r.sop)}\nLiquidación: ${eur(r.liq)}\nTPV: ${eur(r.tpv)}\nTesorería: ${eur(r.bancos)}\n\nFacturas: ${db.facturas.length}\nContactos: ${db.contactos.length}\nArtículos: ${db.articulos.length}\nAsientos: ${db.asientos.length}`}
-function exportar(){navigator.clipboard.writeText(JSON.stringify(db,null,2));alert("JSON copiado")}function descargarJSON(){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));a.download="contablos_fusion_max_"+Date.now()+".json";a.click()}function importar(){try{db=JSON.parse(importar_txt.value);save();alert("Importado")}catch(e){alert("JSON no válido")}}function borrarTodo(){if(confirm("¿Borrar todo?")){localStorage.removeItem("contablos_fusion_max");location.reload()}}
-cargarSelectores();if(!db.articulos.length)cargarRepositorioInicial();pintar();
+let db=JSON.parse(localStorage.getItem("contablos_max_v2"))||{
+config:{empresa:"Comercializadora Eléctrica de Tenerife S.L.",pais:"España",region:"Canarias",moneda:"EUR - Euro",territorio:"Canarias - IGIC",rol:"Administrador"},
+contactos:[],articulos:[],carrito:[],facturas:[],asientos:[],bancos:[],mensajes:[],historico:[]
+};
+
+function save(){localStorage.setItem("contablos_max_v2",JSON.stringify(db));pintar()}
+function eur(n){return(Number(n)||0).toFixed(2)+" €"}
+function hoy(){return new Date().toLocaleString()}
+function normal(t){return(t||"").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"")}
+function esc(s){return String(s||"").replace(/'/g,"\\'").replace(/"/g,"&quot;")}
+
+function tab(id,btn){
+document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+document.querySelectorAll(".tabs button").forEach(b=>b.classList.remove("active"));
+if(btn)btn.classList.add("active");
+}
+function tabById(id){
+let b=[...document.querySelectorAll(".tabs button")].find(x=>x.getAttribute("onclick").includes(id));
+tab(id,b);
+}
+
+function cargarSelectores(){
+let fam=FAMILIAS.map(f=>`<option>${f}</option>`).join("");
+a_familia.innerHTML=fam;
+a_filtrar_familia.innerHTML="<option>Todas</option>"+fam;
+v_familia.innerHTML="<option>Todas</option>"+fam;
+cfg_pais.innerHTML=PAISES.map(x=>`<option>${x}</option>`).join("");
+cfg_region.innerHTML=REGIONES.map(x=>`<option>${x}</option>`).join("");
+cfg_moneda.innerHTML=MONEDAS.map(x=>`<option>${x}</option>`).join("");
+filtrarCNAE();
+
+cfg_empresa.value=db.config.empresa||"";
+cfg_cif.value=db.config.cif||"";
+cfg_usuario.value=db.config.usuario||"";
+cfg_rol.value=db.config.rol||"Administrador";
+cfg_modo.value=db.config.modo||"Interno";
+cfg_tipo_entidad.value=db.config.tipo_entidad||"Sociedad limitada - S.L.";
+cfg_pais.value=db.config.pais||"España";
+cfg_region.value=db.config.region||"Canarias";
+cfg_moneda.value=db.config.moneda||"EUR - Euro";
+cfg_territorio.value=db.config.territorio||"Canarias - IGIC";
+}
+
+function filtrarCNAE(){
+let q=normal(cfg_cnae_buscar?.value||"");
+let lista=CNAES.filter(x=>normal(x[0]+" "+x[1]).includes(q)).slice(0,300);
+cfg_cnae.innerHTML=lista.map(x=>`<option value="${x[0]} - ${x[1]}">${x[0]} - ${x[1]}</option>`).join("");
+}
+
+function cargarRepositorioInicial(){
+let ex=db.articulos.map(a=>normal(a.nombre));
+REPOSITORIO.forEach(x=>{
+if(!ex.includes(normal(x[1]))){
+db.articulos.push({familia:x[0],nombre:x[1],precio:x[2],activo:true});
+}
+});
+save();
+alert("Repositorio cargado: "+REPOSITORIO.length+" artículos");
+}
+
+function guardarArticulo(){
+if(!a_nombre.value||!a_precio.value)return alert("Falta nombre o precio");
+db.articulos.push({familia:a_familia.value,nombre:a_nombre.value,precio:+a_precio.value,activo:true});
+a_nombre.value="";a_precio.value="";
+save();
+}
+
+function cambiarPrecioArticulo(nombre,nuevoPrecio,origen){
+let art=db.articulos.find(a=>normal(a.nombre).trim()===normal(nombre).trim());
+if(!art||!nuevoPrecio)return false;
+db.historico.push({articulo:art.nombre,familia:art.familia,precio_anterior:art.precio,precio_nuevo:nuevoPrecio,origen:origen||"manual",fecha:hoy()});
+art.precio=nuevoPrecio;
+save();
+return true;
+}
+
+function guardarContacto(){
+if(!c_nombre.value)return alert("Falta nombre");
+db.contactos.push({nombre:c_nombre.value,nif:c_nif.value,email:c_email.value,tel:c_tel.value,dir:c_dir.value,tipo:c_tipo.value,fecha:hoy()});
+c_nombre.value=c_nif.value=c_email.value=c_tel.value=c_dir.value="";
+save();
+}
+
+function guardarFactura(){
+let base=parseFloat(f_base.value);
+if(!f_num.value||!f_concepto.value||isNaN(base))return alert("Faltan datos");
+let imp=+f_imp.value,cuota=base*imp/100,total=base+cuota,tipo=f_tipo.value;
+db.facturas.push({num:f_num.value,tercero:f_tercero.value,concepto:f_concepto.value,base,imp,cuota,total,tipo,estado:f_estado.value,fecha:hoy(),origen:"manual"});
+db.asientos.push({fecha:hoy(),desc:"Factura "+tipo+" "+f_num.value+" "+f_concepto.value,cuenta:tipo==="venta"?"430/700/477":"600/472/400",debe:total,haber:total});
+f_num.value=f_tercero.value=f_concepto.value=f_base.value="";
+save();
+}
+
+function guardarAsiento(){
+if(!a_desc.value)return alert("Falta descripción");
+db.asientos.push({fecha:a_fecha.value||hoy(),desc:a_desc.value,cuenta:a_cuenta.value,debe:+a_debe.value||0,haber:+a_haber.value||0});
+a_fecha.value=a_desc.value=a_cuenta.value=a_debe.value=a_haber.value="";
+save();
+}
+
+function guardarBanco(){
+if(!b_concepto.value)return alert("Falta concepto");
+db.bancos.push({banco:b_banco.value,concepto:b_concepto.value,importe:+b_importe.value||0,fecha:b_fecha.value||hoy()});
+b_banco.value=b_concepto.value=b_importe.value=b_fecha.value="";
+save();
+}
+
+function guardarMensaje(){
+if(!m_texto.value)return alert("Falta mensaje");
+db.mensajes.push({para:m_para.value,asunto:m_asunto.value,texto:m_texto.value,fecha:hoy()});
+m_para.value=m_asunto.value=m_texto.value="";
+save();
+}
+
+function guardarConfig(){
+db.config={empresa:cfg_empresa.value,cif:cfg_cif.value,usuario:cfg_usuario.value,rol:cfg_rol.value,modo:cfg_modo.value,tipo_entidad:cfg_tipo_entidad.value,pais:cfg_pais.value,region:cfg_region.value,moneda:cfg_moneda.value,territorio:cfg_territorio.value,cnae:cfg_cnae_manual.value||cfg_cnae.value};
+save();
+}
+
+function addCarrito(nombre,precio,cantidad){
+db.carrito.push({nombre,precio,cantidad,total:precio*cantidad});
+save();
+}
+function vaciarCarrito(){db.carrito=[];save()}
+
+function numeroVoz(t){
+let mapa={un:1,una:1,uno:1,dos:2,tres:3,cuatro:4,cinco:5,seis:6,siete:7,ocho:8,nueve:9,diez:10,once:11,doce:12};
+let n=t.match(/\d+/);
+if(n)return +n[0];
+for(let k in mapa){if(normal(t).includes(k))return mapa[k]}
+return 1;
+}
+
+function precioVoz(t){
+let m=t.match(/(\d+)[,.](\d{1,2})/);
+if(m)return +(m[1]+"."+m[2]);
+let n=t.match(/\d+/);
+return n?+n[0]:null;
+}
+
+function escucharVenta(){
+let SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+if(!SR)return alert("Tu navegador no soporta reconocimiento de voz. Usa Chrome en Android.");
+let rec=new SR();
+rec.lang="es-ES";
+rec.interimResults=false;
+rec.maxAlternatives=1;
+v_estado.innerText="Escuchando...";
+rec.onresult=e=>{
+let texto=e.results[0][0].transcript;
+v_estado.innerText="Reconocido: "+texto;
+procesarVoz(texto);
+};
+rec.onerror=()=>v_estado.innerText="Error de micrófono";
+rec.start();
+}
+
+function procesarVoz(texto){
+let t=normal(texto);
+
+if(t.includes("finalizar")||t.includes("cobra")||t.includes("cobrar")){
+finalizarVenta();
+return;
+}
+
+if(t.includes("vaciar")){
+vaciarCarrito();
+alert("Carrito vaciado");
+return;
+}
+
+if(t.includes("cambia precio")||t.includes("cambiar precio")||t.includes("precio")){
+let nuevo=precioVoz(t);
+let art=db.articulos.find(a=>t.includes(normal(a.nombre)));
+if(art&&nuevo!==null){
+cambiarPrecioArticulo(art.nombre,nuevo,"voz: "+texto);
+alert("Precio cambiado: "+art.nombre+" → "+eur(nuevo));
+return;
+}
+alert("No encontré artículo o precio");
+return;
+}
+
+let cliente=db.contactos.find(c=>t.includes(normal(c.nombre)));
+if(cliente)v_cliente.value=cliente.nombre;
+
+let art=db.articulos.find(a=>t.includes(normal(a.nombre)));
+if(!art)return alert("No encuentro el artículo. Prueba con el nombre exacto o créalo en Artículos.");
+
+let cant=numeroVoz(t);
+addCarrito(art.nombre,art.precio,cant);
+alert("Añadido: "+cant+" x "+art.nombre);
+}
+
+function finalizarVenta(){
+if(!db.carrito.length)return alert("Carrito vacío");
+let total=db.carrito.reduce((s,x)=>s+x.total,0);
+let cliente=v_cliente.value||"Cliente contado";
+let concepto=db.carrito.map(x=>x.cantidad+" x "+x.nombre).join(", ");
+db.facturas.push({num:"TPV-"+Date.now(),tercero:cliente,concepto,base:total,imp:0,cuota:0,total,tipo:"venta",estado:"Cobrada",fecha:hoy(),origen:"TPV Voz",lineas:[...db.carrito]});
+db.asientos.push({fecha:hoy(),desc:"Venta TPV Voz "+cliente+" "+concepto,cuenta:"570/700",debe:total,haber:total});
+db.carrito=[];
+save();
+alert("Venta finalizada");
+tabById("facturas");
+}
+
+async function procesarOCR(){
+let file=ocr_file.files[0];
+if(!file)return;
+ocr_estado.innerText="Reconociendo...";
+try{
+let res=await Tesseract.recognize(file,"spa",{logger:m=>{if(m.status)ocr_estado.innerText=m.status+" "+Math.round((m.progress||0)*100)+"%"}});
+ocr_texto.value=res.data.text;
+ocr_estado.innerText="OCR completado";
+}catch(e){
+ocr_estado.innerText="Error OCR";
+}
+}
+
+function crearFacturaOCR(tipo){
+let t=ocr_texto.value;
+if(!t.trim())return alert("No hay texto OCR");
+let nums=t.match(/\d+[,.]\d{2}/g)||[];
+let total=nums.length?nums[nums.length-1].replace(",","."):"";
+let lines=t.split("\n").filter(x=>x.trim().length>2);
+f_num.value="OCR-"+Date.now();
+f_tercero.value=(lines[0]||"Proveedor OCR").substring(0,50);
+f_concepto.value=t.substring(0,90);
+f_base.value=total;
+f_tipo.value=tipo;
+tabById("facturas");
+}
+
+function resumen(){
+let ing=0,gas=0,rep=0,sop=0,tpv=0;
+db.facturas.forEach(f=>{
+if(f.tipo==="venta"){
+ing+=f.total;rep+=f.cuota;
+if(f.origen&&f.origen.includes("TPV"))tpv+=f.total;
+}else{
+gas+=f.total;sop+=f.cuota;
+}
+});
+let bancos=db.bancos.reduce((a,b)=>a+(+b.importe||0),0);
+return{ing,gas,rep,sop,ben:ing-gas,liq:rep-sop,bancos,tpv};
+}
+
+function del(arr,i){
+db[arr].splice(i,1);
+save();
+}
+
+function pintar(){
+let r=resumen();
+
+d_ing.innerText=eur(r.ing);
+d_gas.innerText=eur(r.gas);
+d_ben.innerText=eur(r.ben);
+d_rep.innerText=eur(r.rep);
+d_sop.innerText=eur(r.sop);
+d_liq.innerText=eur(r.liq);
+d_tpv.innerText=eur(r.tpv);
+d_banco.innerText=eur(r.bancos);
+d_estado.innerHTML=r.liq>0?'<span class="warn">A pagar</span>':'<span class="ok">A compensar/devolver</span>';
+
+i_rep.innerText=eur(r.rep);
+i_sop.innerText=eur(r.sop);
+i_liq.innerText=eur(r.liq);
+i_estado.innerHTML=d_estado.innerHTML;
+
+let qa=normal(a_buscar?.value||"");
+let fa=a_filtrar_familia?.value||"Todas";
+lista_articulos.innerHTML=db.articulos
+.filter(a=>(fa==="Todas"||a.familia===fa)&&normal(a.nombre+" "+a.familia).includes(qa))
+.map((a,i)=>`
+<div class="item">
+<b>${a.nombre}</b> <span class="pill">${a.familia}</span><br>
+Precio actual: <b>${eur(a.precio)}</b>
+<input id="precio_${i}" type="number" step="0.01" placeholder="Nuevo precio">
+<button onclick="cambiarPrecioArticulo('${esc(a.nombre)}',+document.getElementById('precio_${i}').value,'manual')">Cambiar precio</button>
+<button class="blue" onclick="addCarrito('${esc(a.nombre)}',${a.precio},1);tabById('tpvvoz')">Vender</button>
+</div>`).join("")||"Sin artículos";
+
+let qv=normal(v_buscar?.value||"");
+let fv=v_familia?.value||"Todas";
+v_lista_articulos.innerHTML=db.articulos
+.filter(a=>(fv==="Todas"||a.familia===fv)&&normal(a.nombre+" "+a.familia).includes(qv))
+.slice(0,100)
+.map(a=>`
+<div class="item">
+<b>${a.nombre}</b> <span class="pill">${a.familia}</span><br>
+${eur(a.precio)}
+<button onclick="addCarrito('${esc(a.nombre)}',${a.precio},1)">Añadir 1</button>
+<button class="orange" onclick="addCarrito('${esc(a.nombre)}',${a.precio},2)">Añadir 2</button>
+</div>`).join("")||"Sin artículos";
+
+v_carrito.innerHTML=db.carrito.map((x,i)=>`
+<div class="item">
+${x.cantidad} x <b>${x.nombre}</b><br>
+${eur(x.precio)} unidad · <b>${eur(x.total)}</b>
+<button class="red" onclick="db.carrito.splice(${i},1);save()">Eliminar</button>
+</div>`).join("")||"Carrito vacío";
+v_total.innerText=eur(db.carrito.reduce((s,x)=>s+x.total,0));
+
+let bc=normal(buscar_contacto?.value||"");
+lista_contactos.innerHTML=db.contactos
+.filter(c=>normal(JSON.stringify(c)).includes(bc))
+.map((c,i)=>`
+<div class="item">
+<b>${c.nombre}</b> <span class="pill">${c.tipo}</span><br>
+${c.nif||""}<br>${c.email||""}<br>${c.tel||""}<br>${c.dir||""}
+<button onclick="v_cliente.value='${esc(c.nombre)}';tabById('tpvvoz')">Usar en TPV</button>
+<button class="red" onclick="del('contactos',${i})">Eliminar</button>
+</div>`).join("")||"Sin contactos";
+
+let bf=normal(buscar_factura?.value||"");
+lista_facturas.innerHTML=db.facturas
+.filter(f=>normal(JSON.stringify(f)).includes(bf))
+.map((f,i)=>`
+<div class="item">
+<b>${f.num}</b> <span class="pill">${f.tipo}</span> <span class="pill">${f.estado}</span> <span class="pill">${f.origen||"manual"}</span><br>
+${f.fecha} · ${f.tercero||""}<br>
+${f.concepto}<br>
+Base ${eur(f.base)} · Imp ${f.imp}% ${eur(f.cuota)}<br>
+<b>Total ${eur(f.total)}</b>
+<button class="red" onclick="del('facturas',${i})">Eliminar</button>
+</div>`).join("")||"Sin facturas";
+
+lista_asientos.innerHTML=db.asientos.map((a,i)=>`
+<div class="item">
+<b>${a.fecha}</b> ${a.cuenta||""}<br>
+${a.desc}<br>
+Debe ${eur(a.debe)} · Haber ${eur(a.haber)}
+<button class="red" onclick="del('asientos',${i})">Eliminar</button>
+</div>`).join("")||"Sin asientos";
+
+lista_bancos.innerHTML=db.bancos.map((b,i)=>`
+<div class="item">
+<b>${b.fecha}</b> ${b.banco||""}<br>
+${b.concepto}<br><b>${eur(b.importe)}</b>
+<button class="red" onclick="del('bancos',${i})">Eliminar</button>
+</div>`).join("")||"Sin movimientos";
+
+lista_mensajes.innerHTML=db.mensajes.map((m,i)=>`
+<div class="item">
+<b>${m.asunto||"Sin asunto"}</b><br>
+${m.fecha} · ${m.para||""}<br>${m.texto}
+<button class="red" onclick="del('mensajes',${i})">Eliminar</button>
+</div>`).join("")||"Sin mensajes";
+
+lista_historico.innerHTML=db.historico.slice().reverse().map(h=>`
+<div class="item">
+<b>${h.articulo}</b> <span class="pill">${h.familia}</span><br>
+Antes: ${eur(h.precio_anterior)} → Nuevo: <b>${eur(h.precio_nuevo)}</b><br>
+${h.fecha}<br>${h.origen}
+</div>`).join("")||"Sin cambios de precio";
+
+config_box.innerHTML=`
+Empresa: <b>${db.config.empresa||""}</b><br>
+CIF: ${db.config.cif||""}<br>
+Usuario: ${db.config.usuario||""}<br>
+Rol: ${db.config.rol||""}<br>
+Modo: ${db.config.modo||""}<br>
+Entidad: ${db.config.tipo_entidad||""}<br>
+País: ${db.config.pais||""}<br>
+Región: ${db.config.region||""}<br>
+Moneda: ${db.config.moneda||""}<br>
+Fiscalidad: ${db.config.territorio||""}<br>
+CNAE: ${db.config.cnae||""}`;
+
+kpi_box.innerHTML=`
+<table>
+<tr><th>KPI</th><th>Valor</th></tr>
+<tr><td>Margen</td><td>${r.ing?((r.ben/r.ing)*100).toFixed(2):0}%</td></tr>
+<tr><td>Facturas</td><td>${db.facturas.length}</td></tr>
+<tr><td>Ventas TPV</td><td>${eur(r.tpv)}</td></tr>
+<tr><td>Artículos</td><td>${db.articulos.length}</td></tr>
+<tr><td>Contactos</td><td>${db.contactos.length}</td></tr>
+<tr><td>Tesorería</td><td>${eur(r.bancos)}</td></tr>
+</table>`;
+
+let alerts=[];
+if(r.ben<0)alerts.push("Beneficio negativo");
+if(r.liq>0)alerts.push("Liquidación fiscal a pagar");
+if(!db.articulos.length)alerts.push("Repositorio de artículos vacío");
+if(!("webkitSpeechRecognition" in window)&&!("SpeechRecognition" in window))alerts.push("El navegador puede no soportar voz. Usar Chrome Android.");
+alertas_box.innerHTML=alerts.map(a=>`<div class="item bad">${a}</div>`).join("")||'<div class="item ok">Sin alertas críticas</div>';
+}
+
+function generarInforme(){
+let r=resumen();
+informe_txt.value=`INFORME CONTABLOS MAX v2
+Empresa: ${db.config.empresa||""}
+Fecha: ${new Date().toLocaleString()}
+
+Ingresos: ${eur(r.ing)}
+Gastos: ${eur(r.gas)}
+Beneficio: ${eur(r.ben)}
+Repercutido: ${eur(r.rep)}
+Soportado: ${eur(r.sop)}
+Liquidación: ${eur(r.liq)}
+Ventas TPV Voz: ${eur(r.tpv)}
+Tesorería: ${eur(r.bancos)}
+
+Facturas: ${db.facturas.length}
+Contactos: ${db.contactos.length}
+Artículos: ${db.articulos.length}
+Asientos: ${db.asientos.length}
+Cambios de precio: ${db.historico.length}`;
+}
+
+function exportar(){
+navigator.clipboard.writeText(JSON.stringify(db,null,2));
+alert("JSON copiado");
+}
+function descargarJSON(){
+let a=document.createElement("a");
+a.href=URL.createObjectURL(new Blob([JSON.stringify(db,null,2)],{type:"application/json"}));
+a.download="contablos_max_v2_"+Date.now()+".json";
+a.click();
+}
+function importar(){
+try{db=JSON.parse(importar_txt.value);save();alert("Importado")}
+catch(e){alert("JSON no válido")}
+}
+function borrarTodo(){
+if(confirm("¿Borrar todo?")){
+localStorage.removeItem("contablos_max_v2");
+location.reload();
+}
+}
+
+cargarSelectores();
+if(!db.articulos.length)cargarRepositorioInicial();
+pintar();
 </script>
 </body>
 </html>
