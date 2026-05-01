@@ -3,40 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ContablOS Total v1.0</title>
+<title>ContablOS Total v1.2</title>
 <style>
-:root{--bg:#0f172a;--card:#1e293b;--soft:#334155;--txt:#fff;--muted:#94a3b8;--green:#22c55e;--blue:#2563eb;--red:#dc2626;--orange:#f97316;--yellow:#eab308}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--txt)}
-header{background:#020617;padding:18px;text-align:center;position:sticky;top:0;z-index:20;border-bottom:1px solid #1e293b}
-header h1{margin:0;font-size:24px}.small{color:var(--muted);font-size:13px}.wrap{padding:12px;max-width:980px;margin:auto}
+:root{
+--bg:#1a0505;
+--card:#2b0b0b;
+--soft:#4a1111;
+--txt:#fff;
+--muted:#fca5a5;
+--main:#dc2626;
+--main2:#991b1b;
+--blue:#2563eb;
+--green:#16a34a;
+--orange:#f97316;
+--yellow:#facc15;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--txt)}
+header{background:#090202;padding:18px;text-align:center;position:sticky;top:0;z-index:20;border-bottom:1px solid #7f1d1d}
+header h1{margin:0;font-size:24px;color:#fff}
+.small{color:var(--muted);font-size:13px}
+.wrap{padding:12px;max-width:1100px;margin:auto}
 .tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;position:sticky;top:86px;background:var(--bg);padding:8px 0;z-index:10}
 .tabs button{background:var(--soft);color:white;border:0;border-radius:12px;padding:10px;font-weight:bold}
-.tabs button.active{background:var(--green)}
-section{display:none}section.active{display:block}
-.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:12px}
+.tabs button.active{background:var(--main)}
+section{display:none}
+section.active{display:block}
+.card{background:var(--card);border-radius:16px;padding:14px;margin-bottom:12px;border:1px solid #7f1d1d}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 input,select,textarea,button{width:100%;padding:12px;border:0;border-radius:12px;margin-top:8px;font-size:15px}
-input,select,textarea{background:#f8fafc;color:#020617}
-button{background:var(--green);color:white;font-weight:bold}
-.blue{background:var(--blue)}.red{background:var(--red)}.orange{background:var(--orange)}.yellow{background:var(--yellow);color:#111827}
+input,select,textarea{background:#fff;color:#111827}
+button{background:var(--main);color:white;font-weight:bold}
+.blue{background:var(--blue)}
+.green{background:var(--green)}
+.orange{background:var(--orange)}
+.yellow{background:var(--yellow);color:#111827}
+.red{background:#7f1d1d}
 .item{background:var(--soft);padding:12px;border-radius:14px;margin-top:10px;white-space:pre-wrap}
 .total{font-size:23px;font-weight:bold;margin-top:6px}
-.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#475569;margin:4px 4px 0 0;font-size:12px}
+.pill{display:inline-block;padding:4px 8px;border-radius:99px;background:#7f1d1d;margin:4px 4px 0 0;font-size:12px}
 .ok{color:#86efac}.bad{color:#fca5a5}.warn{color:#fde68a}
-table{width:100%;border-collapse:collapse;margin-top:8px}td,th{padding:8px;border-bottom:1px solid #475569;text-align:left;font-size:13px}
+table{width:100%;border-collapse:collapse;margin-top:8px}
+td,th{padding:8px;border-bottom:1px solid #7f1d1d;text-align:left;font-size:13px}
 .footer{padding:30px;text-align:center;color:var(--muted)}
-@media(max-width:600px){.tabs{grid-template-columns:repeat(3,1fr);top:83px}.grid3{grid-template-columns:1fr}.grid{grid-template-columns:1fr 1fr}header h1{font-size:21px}}
+.configBanner{background:#450a0a;border:1px solid #dc2626;border-radius:16px;padding:14px;margin-bottom:12px}
+@media(max-width:650px){
+.tabs{grid-template-columns:repeat(3,1fr);top:83px}
+.grid3{grid-template-columns:1fr}
+.grid{grid-template-columns:1fr 1fr}
+header h1{font-size:21px}
+}
 </style>
 </head>
 <body>
 
 <header>
-<h1>ContablOS Total v1.0</h1>
-<div class="small">ERP contable móvil · OCR · impuestos · bancos · KPI · CRM</div>
+<h1>ContablOS Total v1.2</h1>
+<div class="small">ERP contable móvil · OCR · CNAE · países · regiones · monedas · externalización</div>
 </header>
 
 <div class="wrap">
+
+<div id="configBanner" class="configBanner" style="display:none">
+<b>Configuración inicial pendiente</b><br>
+<div class="small">Define empresa, usuario, rol, país, moneda, CNAE y tipo de entidad.</div>
+<button onclick="tabById('config')">Abrir configuración</button>
+</div>
 
 <nav class="tabs">
 <button onclick="tab('dashboard',this)" class="active">Dashboard</button>
@@ -79,6 +112,8 @@ table{width:100%;border-collapse:collapse;margin-top:8px}td,th{padding:8px;borde
 <option>Proveedor</option>
 <option>Banco</option>
 <option>Administración</option>
+<option>Empleado</option>
+<option>Socio</option>
 </select>
 <button onclick="guardarContacto()">Guardar contacto</button>
 </div>
@@ -197,20 +232,102 @@ table{width:100%;border-collapse:collapse;margin-top:8px}td,th{padding:8px;borde
 
 <section id="config">
 <div class="card">
-<h2>Configuración empresa</h2>
-<input id="cfg_empresa" placeholder="Empresa">
-<input id="cfg_cif" placeholder="CIF">
-<input id="cfg_cnae" placeholder="CNAE">
+<h2>Configuración inicial de externalización</h2>
+
+<h3>Empresa / titular</h3>
+<input id="cfg_empresa" placeholder="Nombre empresa / titular">
+<input id="cfg_cif" placeholder="CIF / NIF / NIE">
+
+<select id="cfg_tipo_entidad">
+<option value="">Tipo de entidad</option>
+<option>Persona física / individual</option>
+<option>Autónomo empresario individual</option>
+<option>Autónomo profesional</option>
+<option>Comunidad de bienes</option>
+<option>Sociedad civil</option>
+<option>Sociedad limitada - S.L.</option>
+<option>Sociedad limitada unipersonal - S.L.U.</option>
+<option>Sociedad anónima - S.A.</option>
+<option>Sociedad cooperativa</option>
+<option>Sociedad laboral</option>
+<option>Asociación</option>
+<option>Fundación</option>
+<option>Comunidad de propietarios</option>
+<option>Grupo empresarial</option>
+<option>Holding</option>
+<option>UTE</option>
+<option>Sucursal extranjera</option>
+<option>Entidad pública</option>
+<option>Otra</option>
+</select>
+
+<select id="cfg_grupo">
+<option value="">Estructura empresarial</option>
+<option>Empresa individual sin filiales</option>
+<option>Empresa con varios centros</option>
+<option>Grupo de empresas</option>
+<option>Empresa matriz</option>
+<option>Empresa filial</option>
+<option>Empresa participada</option>
+<option>Franquicia</option>
+<option>Red comercial</option>
+<option>Asesoría con cartera de clientes</option>
+<option>Cliente dentro de asesoría externa</option>
+</select>
+
+<h3>Usuario y rol</h3>
+<input id="cfg_usuario" placeholder="Usuario responsable">
+<select id="cfg_rol">
+<option>Administrador</option>
+<option>Gerente</option>
+<option>Contable interno</option>
+<option>Asesor externo</option>
+<option>Cliente supervisado</option>
+<option>Auditor</option>
+<option>Fiscalista</option>
+<option>Técnico laboral</option>
+<option>Comercial</option>
+<option>Solo lectura</option>
+</select>
+
+<select id="cfg_modo">
+<option>Interno</option>
+<option>Externalizado</option>
+<option>Asesoría</option>
+<option>Cliente supervisado</option>
+<option>Multiempresa</option>
+<option>Auditoría</option>
+</select>
+
+<h3>Territorio</h3>
+<select id="cfg_pais"></select>
+<select id="cfg_region"></select>
+<select id="cfg_moneda"></select>
+
 <select id="cfg_territorio">
 <option>Canarias - IGIC</option>
 <option>Península/Baleares - IVA</option>
-<option>Ceuta</option>
-<option>Melilla</option>
-<option>Foral</option>
+<option>Ceuta - IPSI</option>
+<option>Melilla - IPSI</option>
+<option>Navarra - Régimen foral</option>
+<option>País Vasco - Régimen foral</option>
+<option>Unión Europea</option>
+<option>Exportación / Internacional</option>
 </select>
-<button onclick="guardarConfig()">Guardar configuración</button>
+
+<h3>CNAE</h3>
+<input id="cfg_cnae_buscar" placeholder="Buscar CNAE por código o texto" oninput="filtrarCNAE()">
+<select id="cfg_cnae"></select>
+<input id="cfg_cnae_manual" placeholder="CNAE manual si no aparece">
+
+<button onclick="guardarConfig()">Guardar configuración inicial</button>
+<button class="orange" onclick="reiniciarConfig()">Reiniciar asistente</button>
 </div>
-<div class="card"><h2>Estado configuración</h2><div id="config_box"></div></div>
+
+<div class="card">
+<h2>Estado configuración</h2>
+<div id="config_box"></div>
+</div>
 </section>
 
 <section id="datos">
@@ -231,8 +348,551 @@ table{width:100%;border-collapse:collapse;margin-top:8px}td,th{padding:8px;borde
 <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <script>
+const PAISES=[
+"España","Portugal","Francia","Italia","Alemania","Países Bajos","Bélgica","Irlanda","Luxemburgo","Austria","Polonia","Rumanía","Bulgaria","Grecia","Chipre","Malta","Suecia","Dinamarca","Finlandia","Estonia","Letonia","Lituania","República Checa","Eslovaquia","Eslovenia","Hungría","Croacia",
+"Reino Unido","Suiza","Noruega","Islandia","Estados Unidos","Canadá","México","Brasil","Argentina","Chile","Colombia","Perú","Uruguay","Paraguay","Bolivia","Ecuador","Venezuela","Marruecos","Mauritania","Senegal","Sudáfrica","China","Japón","Corea del Sur","India","Emiratos Árabes Unidos","Turquía","Australia","Nueva Zelanda","Otro"
+];
+
+const REGIONES_ES=[
+"Andalucía","Aragón","Asturias","Baleares","Canarias","Cantabria","Castilla-La Mancha","Castilla y León","Cataluña","Comunidad Valenciana","Extremadura","Galicia","Madrid","Murcia","Navarra","País Vasco","La Rioja","Ceuta","Melilla"
+];
+
+const MONEDAS=[
+"EUR - Euro","USD - Dólar estadounidense","GBP - Libra esterlina","CHF - Franco suizo","JPY - Yen japonés","CNY - Yuan chino","CAD - Dólar canadiense","AUD - Dólar australiano","MXN - Peso mexicano","BRL - Real brasileño","ARS - Peso argentino","CLP - Peso chileno","COP - Peso colombiano","PEN - Sol peruano","MAD - Dirham marroquí","AED - Dirham EAU","TRY - Lira turca","SEK - Corona sueca","NOK - Corona noruega","DKK - Corona danesa","PLN - Zloty","RON - Leu rumano","BGN - Lev búlgaro","CZK - Corona checa","HUF - Florín húngaro"
+];
+
+const CNAES=[
+["0111","Cultivo de cereales, leguminosas y semillas oleaginosas"],
+["0112","Cultivo de arroz"],
+["0113","Cultivo de hortalizas, raíces y tubérculos"],
+["0114","Cultivo de caña de azúcar"],
+["0115","Cultivo de tabaco"],
+["0116","Cultivo de plantas para fibras textiles"],
+["0119","Otros cultivos no perennes"],
+["0121","Cultivo de la vid"],
+["0122","Cultivo de frutos tropicales y subtropicales"],
+["0123","Cultivo de cítricos"],
+["0124","Cultivo de frutos con hueso y pepitas"],
+["0125","Cultivo de otros árboles y arbustos frutales y frutos secos"],
+["0126","Cultivo de frutos oleaginosos"],
+["0127","Cultivo de plantas para bebidas"],
+["0128","Cultivo de especias, plantas aromáticas, medicinales y farmacéuticas"],
+["0129","Otros cultivos perennes"],
+["0130","Propagación de plantas"],
+["0141","Explotación de ganado bovino para producción de leche"],
+["0142","Explotación de otro ganado bovino y búfalos"],
+["0143","Explotación de caballos y otros equinos"],
+["0144","Explotación de camellos y otros camélidos"],
+["0145","Explotación de ganado ovino y caprino"],
+["0146","Explotación de ganado porcino"],
+["0147","Avicultura"],
+["0149","Otras explotaciones de ganado"],
+["0150","Producción agrícola combinada con producción ganadera"],
+["0161","Actividades de apoyo a la agricultura"],
+["0162","Actividades de apoyo a la ganadería"],
+["0163","Actividades de preparación posterior a la cosecha"],
+["0164","Tratamiento de semillas para reproducción"],
+["0170","Caza, captura de animales y servicios relacionados"],
+["0210","Silvicultura y otras actividades forestales"],
+["0220","Explotación de la madera"],
+["0230","Recolección de productos silvestres"],
+["0240","Servicios de apoyo a la silvicultura"],
+["0311","Pesca marina"],
+["0312","Pesca en agua dulce"],
+["0321","Acuicultura marina"],
+["0322","Acuicultura en agua dulce"],
+["0510","Extracción de antracita y hulla"],
+["0520","Extracción de lignito"],
+["0610","Extracción de crudo de petróleo"],
+["0620","Extracción de gas natural"],
+["0710","Extracción de minerales de hierro"],
+["0721","Extracción de minerales de uranio y torio"],
+["0729","Extracción de otros minerales metálicos no férreos"],
+["0811","Extracción de piedra ornamental y para construcción"],
+["0812","Extracción de gravas, arenas, arcilla y caolín"],
+["0891","Extracción de minerales para productos químicos y fertilizantes"],
+["0892","Extracción de turba"],
+["0893","Extracción de sal"],
+["0899","Otras industrias extractivas"],
+["0910","Actividades de apoyo a la extracción de petróleo y gas natural"],
+["0990","Actividades de apoyo a otras industrias extractivas"],
+["1011","Procesado y conservación de carne"],
+["1012","Procesado y conservación de volatería"],
+["1013","Elaboración de productos cárnicos"],
+["1021","Procesado de pescados, crustáceos y moluscos"],
+["1022","Fabricación de conservas de pescado"],
+["1031","Procesado y conservación de patatas"],
+["1032","Elaboración de zumos"],
+["1039","Otro procesado y conservación de frutas y hortalizas"],
+["1042","Fabricación de margarina y grasas comestibles similares"],
+["1052","Elaboración de helados"],
+["1061","Fabricación de productos de molinería"],
+["1071","Fabricación de pan y productos frescos de panadería"],
+["1072","Fabricación de galletas y productos de panadería de larga duración"],
+["1073","Fabricación de pastas alimenticias"],
+["1082","Fabricación de cacao, chocolate y confitería"],
+["1083","Elaboración de café, té e infusiones"],
+["1084","Elaboración de especias, salsas y condimentos"],
+["1085","Elaboración de platos y comidas preparados"],
+["1086","Elaboración de preparados alimenticios homogeneizados"],
+["1089","Elaboración de otros productos alimenticios"],
+["1091","Fabricación de productos para alimentación de animales de granja"],
+["1092","Fabricación de productos para alimentación de animales de compañía"],
+["1101","Destilación y mezcla de bebidas alcohólicas"],
+["1102","Elaboración de vinos"],
+["1103","Elaboración de sidra"],
+["1104","Elaboración de otras bebidas fermentadas"],
+["1105","Fabricación de cerveza"],
+["1106","Fabricación de malta"],
+["1107","Fabricación de bebidas no alcohólicas y aguas minerales"],
+["1200","Industria del tabaco"],
+["1310","Preparación e hilado de fibras textiles"],
+["1320","Fabricación de tejidos textiles"],
+["1392","Fabricación de artículos confeccionados con textiles"],
+["1393","Fabricación de alfombras y moquetas"],
+["1399","Fabricación de otros productos textiles"],
+["1413","Confección de otras prendas de vestir exteriores"],
+["1414","Confección de ropa interior"],
+["1419","Confección de otras prendas de vestir y accesorios"],
+["1512","Fabricación de artículos de marroquinería"],
+["1520","Fabricación de calzado"],
+["1610","Aserrado y cepillado de la madera"],
+["1623","Fabricación de estructuras de madera"],
+["1624","Fabricación de envases y embalajes de madera"],
+["1712","Fabricación de papel y cartón"],
+["1721","Fabricación de papel y cartón ondulados"],
+["1811","Artes gráficas y servicios relacionados"],
+["1812","Otras actividades de impresión"],
+["1813","Servicios de preimpresión"],
+["1814","Encuadernación"],
+["1820","Reproducción de soportes grabados"],
+["1910","Coquerías"],
+["1920","Refino de petróleo"],
+["2011","Fabricación de gases industriales"],
+["2012","Fabricación de colorantes y pigmentos"],
+["2013","Fabricación de otros productos básicos de química inorgánica"],
+["2014","Fabricación de otros productos básicos de química orgánica"],
+["2015","Fabricación de fertilizantes"],
+["2020","Fabricación de pesticidas"],
+["2030","Fabricación de pinturas, barnices y revestimientos"],
+["2041","Fabricación de jabones y detergentes"],
+["2042","Fabricación de perfumes y cosméticos"],
+["2053","Fabricación de aceites esenciales"],
+["2059","Fabricación de otros productos químicos"],
+["2110","Fabricación de productos farmacéuticos de base"],
+["2120","Fabricación de especialidades farmacéuticas"],
+["2211","Fabricación de neumáticos"],
+["2221","Fabricación de placas, hojas, tubos y perfiles de plástico"],
+["2222","Fabricación de envases y embalajes de plástico"],
+["2223","Fabricación de productos de plástico para construcción"],
+["2229","Fabricación de otros productos de plástico"],
+["2311","Fabricación de vidrio plano"],
+["2312","Manipulado y transformación de vidrio plano"],
+["2313","Fabricación de vidrio hueco"],
+["2320","Fabricación de productos cerámicos refractarios"],
+["2332","Fabricación de ladrillos, tejas y productos de tierras cocidas"],
+["2351","Fabricación de cemento"],
+["2352","Fabricación de cal y yeso"],
+["2361","Fabricación de elementos de hormigón para construcción"],
+["2363","Fabricación de hormigón fresco"],
+["2364","Fabricación de mortero"],
+["2370","Corte, tallado y acabado de piedra"],
+["2410","Fabricación de productos básicos de hierro, acero y ferroaleaciones"],
+["2420","Fabricación de tubos de acero"],
+["2511","Fabricación de estructuras metálicas"],
+["2512","Fabricación de carpintería metálica"],
+["2521","Fabricación de radiadores y calderas"],
+["2561","Tratamiento y revestimiento de metales"],
+["2562","Ingeniería mecánica por cuenta de terceros"],
+["2572","Fabricación de cerraduras y herrajes"],
+["2573","Fabricación de herramientas"],
+["2591","Fabricación de bidones y toneles de hierro o acero"],
+["2592","Fabricación de envases y embalajes metálicos ligeros"],
+["2599","Fabricación de otros productos metálicos"],
+["2611","Fabricación de componentes electrónicos"],
+["2612","Fabricación de circuitos impresos ensamblados"],
+["2620","Fabricación de ordenadores y equipos periféricos"],
+["2630","Fabricación de equipos de telecomunicaciones"],
+["2640","Fabricación de productos electrónicos de consumo"],
+["2651","Fabricación de instrumentos de medida y control"],
+["2670","Fabricación de instrumentos de óptica"],
+["2711","Fabricación de motores, generadores y transformadores eléctricos"],
+["2712","Fabricación de aparatos de distribución y control eléctrico"],
+["2720","Fabricación de pilas y acumuladores"],
+["2732","Fabricación de cables eléctricos y electrónicos"],
+["2740","Fabricación de lámparas y aparatos eléctricos de iluminación"],
+["2751","Fabricación de electrodomésticos"],
+["2790","Fabricación de otro material y equipo eléctrico"],
+["2811","Fabricación de motores y turbinas"],
+["2812","Fabricación de equipos de transmisión hidráulica y neumática"],
+["2822","Fabricación de maquinaria de elevación y manipulación"],
+["2825","Fabricación de maquinaria de ventilación y refrigeración"],
+["2893","Fabricación de maquinaria para alimentación, bebidas y tabaco"],
+["2910","Fabricación de vehículos de motor"],
+["2920","Fabricación de carrocerías"],
+["2932","Fabricación de otros componentes para vehículos"],
+["3011","Construcción de barcos y estructuras flotantes"],
+["3012","Construcción de embarcaciones de recreo"],
+["3020","Fabricación de locomotoras y material ferroviario"],
+["3030","Construcción aeronáutica y espacial"],
+["3092","Fabricación de bicicletas"],
+["3101","Fabricación de muebles de oficina y comercios"],
+["3102","Fabricación de muebles de cocina"],
+["3109","Fabricación de otros muebles"],
+["3212","Fabricación de artículos de joyería"],
+["3220","Fabricación de instrumentos musicales"],
+["3230","Fabricación de artículos de deporte"],
+["3240","Fabricación de juegos y juguetes"],
+["3250","Fabricación de instrumentos médicos y odontológicos"],
+["3311","Reparación de productos metálicos"],
+["3312","Reparación de maquinaria"],
+["3313","Reparación de equipos electrónicos y ópticos"],
+["3314","Reparación de equipos eléctricos"],
+["3315","Reparación naval"],
+["3316","Reparación aeronáutica"],
+["3317","Reparación de otro material de transporte"],
+["3319","Reparación de otros equipos"],
+["3320","Instalación de máquinas y equipos industriales"],
+["3512","Transporte de energía eléctrica"],
+["3513","Distribución de energía eléctrica"],
+["3514","Comercio de energía eléctrica"],
+["3515","Producción de energía hidroeléctrica"],
+["3516","Producción de energía eléctrica de origen térmico"],
+["3517","Producción de energía eléctrica de origen nuclear"],
+["3518","Producción de energía eléctrica de origen eólico"],
+["3519","Producción de energía eléctrica de otros tipos"],
+["3521","Producción de gas"],
+["3522","Distribución por tubería de combustibles gaseosos"],
+["3523","Comercio de gas por tubería"],
+["3530","Suministro de vapor y aire acondicionado"],
+["3600","Captación, depuración y distribución de agua"],
+["3700","Recogida y tratamiento de aguas residuales"],
+["3811","Recogida de residuos no peligrosos"],
+["3812","Recogida de residuos peligrosos"],
+["3821","Tratamiento y eliminación de residuos no peligrosos"],
+["3822","Tratamiento y eliminación de residuos peligrosos"],
+["3831","Separación y clasificación de materiales"],
+["3832","Valorización de materiales ya clasificados"],
+["3900","Descontaminación y gestión de residuos"],
+["4110","Promoción inmobiliaria"],
+["4121","Construcción de edificios residenciales"],
+["4122","Construcción de edificios no residenciales"],
+["4211","Construcción de carreteras y autopistas"],
+["4212","Construcción de vías férreas"],
+["4213","Construcción de puentes y túneles"],
+["4221","Construcción de redes para fluidos"],
+["4222","Construcción de redes eléctricas y telecomunicaciones"],
+["4291","Obras hidráulicas"],
+["4299","Construcción de otros proyectos de ingeniería civil"],
+["4311","Demolición"],
+["4312","Preparación de terrenos"],
+["4321","Instalaciones eléctricas"],
+["4322","Fontanería, calefacción y aire acondicionado"],
+["4329","Otras instalaciones en obras de construcción"],
+["4331","Revocamiento"],
+["4332","Instalación de carpintería"],
+["4333","Revestimiento de suelos y paredes"],
+["4334","Pintura y acristalamiento"],
+["4339","Otro acabado de edificios"],
+["4391","Construcción de cubiertas"],
+["4399","Otras actividades de construcción especializada"],
+["4511","Venta de automóviles y vehículos ligeros"],
+["4519","Venta de otros vehículos de motor"],
+["4520","Mantenimiento y reparación de vehículos"],
+["4531","Comercio mayor de repuestos de vehículos"],
+["4532","Comercio menor de repuestos de vehículos"],
+["4540","Venta, mantenimiento y reparación de motocicletas"],
+["4611","Intermediarios de materias primas agrarias"],
+["4612","Intermediarios de combustibles, minerales y químicos"],
+["4613","Intermediarios de madera y materiales de construcción"],
+["4614","Intermediarios de maquinaria"],
+["4615","Intermediarios de muebles y artículos del hogar"],
+["4616","Intermediarios de textiles y calzado"],
+["4617","Intermediarios de productos alimenticios"],
+["4618","Intermediarios especializados"],
+["4619","Intermediarios del comercio de productos diversos"],
+["4621","Comercio mayor de cereales, tabaco y alimentos para animales"],
+["4622","Comercio mayor de flores y plantas"],
+["4623","Comercio mayor de animales vivos"],
+["4631","Comercio mayor de frutas y hortalizas"],
+["4632","Comercio mayor de carne"],
+["4633","Comercio mayor de productos lácteos"],
+["4634","Comercio mayor de bebidas"],
+["4635","Comercio mayor de tabaco"],
+["4636","Comercio mayor de azúcar, chocolate y confitería"],
+["4637","Comercio mayor de café, té y especias"],
+["4638","Comercio mayor de pescados y mariscos"],
+["4639","Comercio mayor no especializado de alimentos"],
+["4641","Comercio mayor de textiles"],
+["4642","Comercio mayor de prendas y calzado"],
+["4643","Comercio mayor de aparatos electrodomésticos"],
+["4644","Comercio mayor de porcelana, cristalería y limpieza"],
+["4645","Comercio mayor de perfumería y cosmética"],
+["4646","Comercio mayor de productos farmacéuticos"],
+["4647","Comercio mayor de muebles y alfombras"],
+["4648","Comercio mayor de relojería y joyería"],
+["4649","Comercio mayor de otros artículos de uso doméstico"],
+["4651","Comercio mayor de ordenadores y software"],
+["4652","Comercio mayor de equipos electrónicos y telecomunicaciones"],
+["4661","Comercio mayor de maquinaria agrícola"],
+["4662","Comercio mayor de máquinas herramienta"],
+["4663","Comercio mayor de maquinaria para minería y construcción"],
+["4664","Comercio mayor de maquinaria textil"],
+["4665","Comercio mayor de muebles de oficina"],
+["4666","Comercio mayor de otra maquinaria de oficina"],
+["4669","Comercio mayor de otra maquinaria"],
+["4671","Comercio mayor de combustibles"],
+["4672","Comercio mayor de metales"],
+["4673","Comercio mayor de madera y materiales de construcción"],
+["4674","Comercio mayor de ferretería y fontanería"],
+["4675","Comercio mayor de productos químicos"],
+["4676","Comercio mayor de otros productos semielaborados"],
+["4677","Comercio mayor de chatarra"],
+["4690","Comercio mayor no especializado"],
+["4711","Comercio menor en establecimientos no especializados con alimentación"],
+["4719","Otro comercio menor no especializado"],
+["4721","Comercio menor de frutas y hortalizas"],
+["4722","Comercio menor de carne"],
+["4723","Comercio menor de pescados"],
+["4724","Comercio menor de pan y pastelería"],
+["4725","Comercio menor de bebidas"],
+["4726","Comercio menor de tabaco"],
+["4729","Otro comercio menor de alimentos"],
+["4730","Comercio menor de combustible para automoción"],
+["4741","Comercio menor de ordenadores"],
+["4742","Comercio menor de telecomunicaciones"],
+["4743","Comercio menor de audio y vídeo"],
+["4751","Comercio menor de textiles"],
+["4752","Comercio menor de ferretería, pintura y vidrio"],
+["4753","Comercio menor de alfombras y revestimientos"],
+["4754","Comercio menor de electrodomésticos"],
+["4759","Comercio menor de muebles e iluminación"],
+["4761","Comercio menor de libros"],
+["4762","Comercio menor de periódicos y papelería"],
+["4763","Comercio menor de música y vídeo"],
+["4764","Comercio menor de artículos deportivos"],
+["4765","Comercio menor de juegos y juguetes"],
+["4771","Comercio menor de prendas de vestir"],
+["4772","Comercio menor de calzado y cuero"],
+["4773","Farmacias"],
+["4774","Comercio menor de artículos médicos y ortopédicos"],
+["4775","Comercio menor de cosmética"],
+["4776","Comercio menor de flores y animales"],
+["4777","Comercio menor de relojería y joyería"],
+["4778","Otro comercio menor de artículos nuevos"],
+["4779","Comercio menor de segunda mano"],
+["4781","Comercio menor en puestos de alimentos"],
+["4782","Comercio menor en puestos de textiles"],
+["4789","Comercio menor en puestos de otros productos"],
+["4791","Comercio menor por correspondencia o Internet"],
+["4799","Otro comercio menor fuera de establecimiento"],
+["4910","Transporte interurbano de pasajeros por ferrocarril"],
+["4920","Transporte de mercancías por ferrocarril"],
+["4931","Transporte terrestre urbano y suburbano de pasajeros"],
+["4932","Transporte por taxi"],
+["4939","Otros tipos de transporte terrestre de pasajeros"],
+["4941","Transporte de mercancías por carretera"],
+["4942","Servicios de mudanza"],
+["5010","Transporte marítimo de pasajeros"],
+["5020","Transporte marítimo de mercancías"],
+["5110","Transporte aéreo de pasajeros"],
+["5121","Transporte aéreo de mercancías"],
+["5210","Depósito y almacenamiento"],
+["5221","Actividades anexas al transporte terrestre"],
+["5222","Actividades anexas al transporte marítimo"],
+["5223","Actividades anexas al transporte aéreo"],
+["5224","Manipulación de mercancías"],
+["5229","Otras actividades anexas al transporte"],
+["5310","Actividades postales"],
+["5320","Otras actividades postales y de correos"],
+["5510","Hoteles y alojamientos similares"],
+["5520","Alojamientos turísticos"],
+["5530","Campings"],
+["5590","Otros alojamientos"],
+["5610","Restaurantes y puestos de comidas"],
+["5621","Provisión de comidas preparadas para eventos"],
+["5629","Otros servicios de comidas"],
+["5630","Establecimientos de bebidas"],
+["5811","Edición de libros"],
+["5812","Edición de directorios"],
+["5813","Edición de periódicos"],
+["5814","Edición de revistas"],
+["5819","Otras actividades editoriales"],
+["5821","Edición de videojuegos"],
+["5829","Edición de otros programas informáticos"],
+["5912","Postproducción cinematográfica y de vídeo"],
+["5914","Exhibición cinematográfica"],
+["5920","Grabación de sonido y edición musical"],
+["6010","Radio"],
+["6020","Televisión"],
+["6110","Telecomunicaciones por cable"],
+["6120","Telecomunicaciones inalámbricas"],
+["6130","Telecomunicaciones por satélite"],
+["6190","Otras telecomunicaciones"],
+["6201","Actividades de programación informática"],
+["6202","Consultoría informática"],
+["6203","Gestión de recursos informáticos"],
+["6209","Otros servicios relacionados con informática"],
+["6311","Proceso de datos, hosting y actividades relacionadas"],
+["6312","Portales web"],
+["6391","Actividades de agencias de noticias"],
+["6399","Otros servicios de información"],
+["6411","Banco central"],
+["6419","Otra intermediación monetaria"],
+["6420","Actividades de sociedades holding"],
+["6430","Inversión colectiva, fondos y entidades financieras similares"],
+["6491","Arrendamiento financiero"],
+["6492","Otras actividades crediticias"],
+["6499","Otros servicios financieros"],
+["6511","Seguros de vida"],
+["6512","Seguros distintos de vida"],
+["6520","Reaseguros"],
+["6530","Fondos de pensiones"],
+["6611","Administración de mercados financieros"],
+["6612","Intermediación en mercados financieros"],
+["6619","Auxiliares a servicios financieros"],
+["6621","Evaluación de riesgos y daños"],
+["6622","Agentes y corredores de seguros"],
+["6629","Otras actividades auxiliares a seguros"],
+["6630","Gestión de fondos"],
+["6810","Compraventa de bienes inmobiliarios por cuenta propia"],
+["6820","Alquiler de bienes inmobiliarios por cuenta propia"],
+["6831","Agentes de la propiedad inmobiliaria"],
+["6832","Gestión y administración de la propiedad inmobiliaria"],
+["6910","Actividades jurídicas"],
+["6920","Contabilidad, teneduría, auditoría y asesoría fiscal"],
+["7010","Actividades de sedes centrales"],
+["7021","Relaciones públicas y comunicación"],
+["7022","Consultoría de gestión empresarial"],
+["7111","Servicios técnicos de arquitectura"],
+["7112","Servicios técnicos de ingeniería"],
+["7120","Ensayos y análisis técnicos"],
+["7211","Investigación y desarrollo en biotecnología"],
+["7219","Otra investigación en ciencias naturales y técnicas"],
+["7220","Investigación en ciencias sociales y humanidades"],
+["7311","Agencias de publicidad"],
+["7312","Servicios de representación de medios"],
+["7320","Estudios de mercado"],
+["7410","Actividades de diseño especializado"],
+["7420","Actividades de fotografía"],
+["7430","Traducción e interpretación"],
+["7490","Otras actividades profesionales, científicas y técnicas"],
+["7500","Actividades veterinarias"],
+["7711","Alquiler de automóviles"],
+["7712","Alquiler de camiones"],
+["7721","Alquiler de artículos deportivos"],
+["7722","Alquiler de cintas de vídeo"],
+["7729","Alquiler de otros efectos personales"],
+["7731","Alquiler de maquinaria agrícola"],
+["7732","Alquiler de maquinaria de construcción"],
+["7733","Alquiler de maquinaria de oficina"],
+["7734","Alquiler de medios de navegación"],
+["7735","Alquiler de medios de transporte aéreo"],
+["7739","Alquiler de otra maquinaria"],
+["7810","Actividades de agencias de colocación"],
+["7820","Actividades de empresas de trabajo temporal"],
+["7830","Otra provisión de recursos humanos"],
+["7911","Agencias de viajes"],
+["7912","Operadores turísticos"],
+["7990","Otros servicios de reservas"],
+["8010","Seguridad privada"],
+["8020","Servicios de sistemas de seguridad"],
+["8030","Actividades de investigación"],
+["8110","Servicios integrales a edificios"],
+["8121","Limpieza general de edificios"],
+["8122","Otras actividades de limpieza industrial y de edificios"],
+["8129","Otras actividades de limpieza"],
+["8130","Jardinería"],
+["8211","Servicios administrativos combinados"],
+["8219","Fotocopiado y otras actividades de oficina"],
+["8220","Actividades de centros de llamadas"],
+["8230","Organización de convenciones y ferias"],
+["8291","Agencias de cobros e información comercial"],
+["8292","Actividades de envasado"],
+["8299","Otras actividades de apoyo a empresas"],
+["8411","Actividades generales de la Administración Pública"],
+["8412","Regulación de servicios sanitarios, educativos y culturales"],
+["8413","Regulación de actividad económica"],
+["8421","Asuntos exteriores"],
+["8422","Defensa"],
+["8423","Justicia"],
+["8424","Orden público y seguridad"],
+["8425","Protección civil"],
+["8430","Seguridad Social obligatoria"],
+["8510","Educación preprimaria"],
+["8520","Educación primaria"],
+["8531","Educación secundaria general"],
+["8532","Educación secundaria técnica y profesional"],
+["8541","Educación postsecundaria no terciaria"],
+["8543","Educación universitaria"],
+["8551","Educación deportiva y recreativa"],
+["8552","Educación cultural"],
+["8553","Autoescuelas"],
+["8559","Otra educación"],
+["8560","Actividades auxiliares a la educación"],
+["8610","Actividades hospitalarias"],
+["8621","Medicina general"],
+["8622","Medicina especializada"],
+["8623","Odontología"],
+["8690","Otras actividades sanitarias"],
+["8710","Asistencia en establecimientos residenciales con cuidados sanitarios"],
+["8720","Asistencia residencial para discapacidad intelectual"],
+["8731","Asistencia residencial para mayores"],
+["8732","Asistencia residencial para discapacidad física"],
+["8790","Otras actividades de asistencia residencial"],
+["8811","Servicios sociales sin alojamiento para mayores"],
+["8812","Servicios sociales sin alojamiento para discapacidad"],
+["8891","Cuidado diurno de niños"],
+["8899","Otros servicios sociales sin alojamiento"],
+["9001","Artes escénicas"],
+["9002","Actividades auxiliares a artes escénicas"],
+["9003","Creación artística y literaria"],
+["9004","Gestión de salas de espectáculos"],
+["9102","Museos"],
+["9103","Gestión de lugares históricos"],
+["9104","Jardines botánicos y zoológicos"],
+["9200","Juegos de azar y apuestas"],
+["9311","Gestión de instalaciones deportivas"],
+["9312","Clubes deportivos"],
+["9313","Gimnasios"],
+["9319","Otras actividades deportivas"],
+["9321","Parques de atracciones"],
+["9329","Otras actividades recreativas"],
+["9411","Organizaciones empresariales"],
+["9412","Organizaciones profesionales"],
+["9420","Sindicatos"],
+["9491","Organizaciones religiosas"],
+["9492","Organizaciones políticas"],
+["9499","Otras organizaciones asociativas"],
+["9511","Reparación de ordenadores"],
+["9512","Reparación de equipos de comunicación"],
+["9521","Reparación de electrónica de consumo"],
+["9522","Reparación de aparatos domésticos"],
+["9523","Reparación de calzado y cuero"],
+["9524","Reparación de muebles"],
+["9525","Reparación de relojes y joyería"],
+["9529","Reparación de otros efectos personales"],
+["9601","Lavado y limpieza de prendas textiles"],
+["9602","Peluquería y otros tratamientos de belleza"],
+["9603","Pompas fúnebres"],
+["9604","Mantenimiento físico"],
+["9609","Otros servicios personales"],
+["9700","Actividades de hogares como empleadores"],
+["9810","Producción de bienes por hogares para uso propio"],
+["9820","Producción de servicios por hogares para uso propio"],
+["9900","Actividades de organizaciones extraterritoriales"]
+];
+
 let db=JSON.parse(localStorage.getItem('contablos_total'))||{
-config:{empresa:'Comercializadora Eléctrica de Tenerife S.L.',territorio:'Canarias - IGIC'},
+config:{
+empresa:'Comercializadora Eléctrica de Tenerife S.L.',
+territorio:'Canarias - IGIC',
+pais:'España',
+region:'Canarias',
+moneda:'EUR - Euro',
+tema:'rojo',
+inicializado:false
+},
 contactos:[],
 facturas:[],
 asientos:[],
@@ -244,6 +904,35 @@ function save(){localStorage.setItem('contablos_total',JSON.stringify(db));pinta
 function eur(n){return (Number(n)||0).toFixed(2)+' €'}
 function hoy(){return new Date().toLocaleDateString()}
 
+function cargarSelectores(){
+cfg_pais.innerHTML=PAISES.map(x=>`<option>${x}</option>`).join('');
+cfg_region.innerHTML=REGIONES_ES.map(x=>`<option>${x}</option>`).join('');
+cfg_moneda.innerHTML=MONEDAS.map(x=>`<option>${x}</option>`).join('');
+filtrarCNAE();
+
+cfg_empresa.value=db.config.empresa||'';
+cfg_cif.value=db.config.cif||'';
+cfg_usuario.value=db.config.usuario||'';
+cfg_rol.value=db.config.rol||'Administrador';
+cfg_modo.value=db.config.modo||'Interno';
+cfg_tipo_entidad.value=db.config.tipo_entidad||'';
+cfg_grupo.value=db.config.grupo||'';
+cfg_pais.value=db.config.pais||'España';
+cfg_region.value=db.config.region||'Canarias';
+cfg_moneda.value=db.config.moneda||'EUR - Euro';
+cfg_territorio.value=db.config.territorio||'Canarias - IGIC';
+
+if(db.config.cnae){
+cfg_cnae.value=db.config.cnae;
+}
+}
+
+function filtrarCNAE(){
+let q=(cfg_cnae_buscar?.value||'').toLowerCase();
+let lista=CNAES.filter(x=>(x[0]+' '+x[1]).toLowerCase().includes(q)).slice(0,250);
+cfg_cnae.innerHTML=lista.map(x=>`<option value="${x[0]} - ${x[1]}">${x[0]} - ${x[1]}</option>`).join('');
+}
+
 function tab(id,btn){
 document.querySelectorAll('section').forEach(s=>s.classList.remove('active'));
 document.getElementById(id).classList.add('active');
@@ -254,6 +943,42 @@ if(btn)btn.classList.add('active');
 function tabById(id){
 let b=[...document.querySelectorAll('.tabs button')].find(x=>x.getAttribute('onclick').includes(id));
 tab(id,b);
+}
+
+function guardarConfig(){
+db.config={
+empresa:cfg_empresa.value||'Empresa sin definir',
+cif:cfg_cif.value,
+usuario:cfg_usuario.value||'Usuario',
+rol:cfg_rol.value,
+modo:cfg_modo.value,
+tipo_entidad:cfg_tipo_entidad.value,
+grupo:cfg_grupo.value,
+pais:cfg_pais.value,
+region:cfg_region.value,
+moneda:cfg_moneda.value,
+territorio:cfg_territorio.value,
+cnae:cfg_cnae_manual.value||cfg_cnae.value,
+tema:'rojo',
+inicializado:true
+};
+save();
+alert('Configuración inicial guardada');
+}
+
+function reiniciarConfig(){
+db.config.inicializado=false;
+save();
+tabById('config');
+}
+
+function comprobarConfig(){
+if(!db.config.inicializado){
+configBanner.style.display='block';
+setTimeout(()=>tabById('config'),400);
+}else{
+configBanner.style.display='none';
+}
 }
 
 function guardarContacto(){
@@ -342,16 +1067,6 @@ m_para.value=m_asunto.value=m_texto.value='';
 save();
 }
 
-function guardarConfig(){
-db.config={
-empresa:cfg_empresa.value||db.config.empresa,
-cif:cfg_cif.value,
-cnae:cfg_cnae.value,
-territorio:cfg_territorio.value
-};
-save();
-}
-
 function del(arr,i){
 db[arr].splice(i,1);
 save();
@@ -430,7 +1145,19 @@ ${m.texto}
 <button class="red" onclick="del('mensajes',${i})">Eliminar</button>
 </div>`).join('')||'Sin mensajes';
 
-config_box.innerHTML=`<b>${db.config.empresa||''}</b><br>${db.config.cif||''}<br>CNAE: ${db.config.cnae||''}<br>${db.config.territorio||''}`;
+config_box.innerHTML=`
+<b>${db.config.empresa||''}</b><br>
+CIF/NIF: ${db.config.cif||''}<br>
+Usuario: ${db.config.usuario||''}<br>
+Rol: ${db.config.rol||''}<br>
+Modo: ${db.config.modo||''}<br>
+Tipo entidad: ${db.config.tipo_entidad||''}<br>
+Estructura: ${db.config.grupo||''}<br>
+País: ${db.config.pais||''}<br>
+Región: ${db.config.region||''}<br>
+Moneda: ${db.config.moneda||''}<br>
+Territorio fiscal: ${db.config.territorio||''}<br>
+CNAE: ${db.config.cnae||''}`;
 
 kpi_box.innerHTML=`
 <table>
@@ -439,13 +1166,18 @@ kpi_box.innerHTML=`
 <tr><td>Facturas</td><td>${db.facturas.length}</td></tr>
 <tr><td>Contactos</td><td>${db.contactos.length}</td></tr>
 <tr><td>Tesorería</td><td>${eur(r.bancos)}</td></tr>
+<tr><td>Empresa</td><td>${db.config.empresa||''}</td></tr>
+<tr><td>Rol</td><td>${db.config.rol||''}</td></tr>
 </table>`;
 
 let alerts=[];
+if(!db.config.inicializado)alerts.push('Falta configuración inicial');
 if(r.ben<0)alerts.push('Beneficio negativo');
 if(r.liq>0)alerts.push('Liquidación fiscal a pagar');
 if(db.facturas.filter(f=>f.estado==='Pendiente'||f.estado==='Vencida').length>0)alerts.push('Hay facturas pendientes o vencidas');
 alertas_box.innerHTML=alerts.map(a=>`<div class="item bad">${a}</div>`).join('')||'<div class="item ok">Sin alertas críticas</div>';
+
+comprobarConfig();
 }
 
 async function procesarOCR(){
@@ -485,6 +1217,15 @@ let r=resumen();
 informe_txt.value=
 `INFORME CONTABLOS
 Empresa: ${db.config.empresa||''}
+CIF/NIF: ${db.config.cif||''}
+Usuario: ${db.config.usuario||''}
+Rol: ${db.config.rol||''}
+Modo: ${db.config.modo||''}
+Tipo entidad: ${db.config.tipo_entidad||''}
+País: ${db.config.pais||''}
+Región: ${db.config.region||''}
+Moneda: ${db.config.moneda||''}
+CNAE: ${db.config.cnae||''}
 Fecha: ${new Date().toLocaleString()}
 
 Ingresos: ${eur(r.ing)}
@@ -530,7 +1271,8 @@ location.reload();
 }
 }
 
+cargarSelectores();
 pintar();
 </script>
 </body>
-                                        </html>
+</html>
